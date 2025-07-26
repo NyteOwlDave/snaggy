@@ -4,6 +4,8 @@
 | When | What | Who   | Why       |
 |------|------|-------|-----------|
 | 2025-JUL-26 | Ryzen | Inception |
+| 2025-JUL-26 | Tower | Clone Repo |
+
 
 # Resources
 

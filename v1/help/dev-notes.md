@@ -83,11 +83,11 @@ figure {
     document.title = "Icon Snagger Notes";
   </script> <script>
     const AppKeys = {
-        tikey : "ee90d376-717f-4698-9754-70d07a2de174""
+        tikey : "ee90d376-717f-4698-9754-70d07a2de174"
         // MS Whiteboard for this App
-,       wbkey : "7e5ff9fb-26b3-4c0e-83c6-265ce71d70b9",
+,       wbkey : "7e5ff9fb-26b3-4c0e-83c6-265ce71d70b9"
         // MS Notebook for this App
-,       nbkey : "A698F7622548FA93!s3c165235bee441789477874797892397", 
+,       nbkey : "A698F7622548FA93!s3c165235bee441789477874797892397" 
         // Grok Chat for this App
 ,       aikey : "1903141909637541947"
     };

@@ -1,0 +1,3333 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Chat Key: 1903141909637541947 -->
+<!-- [[ REMARKS ]]
+
+# Dev Notes
+
+The embedded dev notes are not available in a separate document.
+
+- [Notes](http://dave-omega/std/app/snagger/dev-notes.html)
+
+-->
+<head>
+    <meta charset="UTF-8">
+    <title>Icon Snagger</title>
+
+    <link rel="icon" href="./fave.ico">
+
+    <!-- Support Modules -->
+    <script details="Debug Helpers" decal="🧑‍💻"
+     src="http://dave-omega/42/api/gems/cls-again.js"></script>
+    <script details="TiGG" decal="🦇"
+     src="http://dave-omega/42/api/core/tigg.js"></script>
+    <script details="Legends Squad" decal="🚔"
+     src="http://dave-omega/42/api/core/legends.js"></script>
+    <script details="Thor Module Manager" decal="⚒️"
+     src="http://dave-omega/42/api/core/thor.js"></script>
+    <script details="X3A™ Jubilee API Builder" decal="🥉"
+     src="http://dave-omega/x3a/api/juba.js"></script>
+
+    <!-- Support Module Registration -->
+    <script details="Module Registration" decal="🪪">            
+        const AppModules = {};
+        AppModules.add = function( key, module ) {
+            let map = AppModules.map || {};
+            AppModules.map = map;
+            if ( map[ key ] ) {
+                console.warn( "🟠 Module already registered: ", key );
+                return;
+            } else {
+                map[ key ] = module;
+                console.log( "🟢 Registered module: ", key );
+            }
+        };
+    </script> 
+
+    <!-- App Configuration Details -->
+    <script details="App State">
+        var AppState = {};
+        AppState.title = document.title;
+        AppState.version = '3.1.1';
+        AppState.author = 'NyteOwl Dave';
+        AppState.coauthors = [ "Grok", "Copilot" ];
+        AppState.tidate = '06/26/2025';
+        AppState.tikey = "594650ae-8408-440e-8419-a7f660662dc3";
+    </script>
+    <script details="App Home URL">
+        var AppHome = {
+            scheme  : "http",
+            host    : "dave-omega",
+            path    : "42/app",
+            file    : "icon-snagger",
+            extension : "html",
+            mime    : "text/html",
+            charset : "UTF-8" ,
+            tikey   : AppState.tikey
+        };
+        AppHome.composeURL = function() {
+            const we = AppHome;
+            const origin = [ we.scheme, we.host ].join( "://" );
+            const filename = [ we.file, we.extension ].join( "." );
+            return [ origin, we.path, filename ].join( "/" );
+        }
+        AppHome.visit = function() {
+            const we = AppHome;
+            const url = we.composeURL();
+            let wnd;
+            if ( "function" === typeof showPopup ) {
+                wnd = showPopup( url );
+            }
+            if (! wnd ) {
+                wnd = window.open( url, "_blank" );
+            }
+            return wnd;
+        }
+    </script>
+    <script details="App Decal">
+        var AppDecal = {
+            decal : "🪁",
+            title : AppState.title,
+            tikey : AppState.tikey
+        };
+        // Let TiGG do the grunt-work with Unicode
+        // Guarantees a proper decoding
+        AppDecal.codePoint = TiGG.codePoints( AppDecal.decal );
+    </script>
+    <script details="App Keys">
+        var AppKeys = {
+            // Our Custom App Key
+            tikey : AppState.tikey,
+            // MS Whiteboard for this App
+            wbkey : "7e5ff9fb-26b3-4c0e-83c6-265ce71d70b9",
+            // MS Notebook for this App
+            nbkey : "A698F7622548FA93!s3c165235bee441789477874797892397", 
+            // Grok Chat for this App
+            aikey : "1903141909637541947"
+        };
+    </script>
+    <script details="Access CSS Root Properties">
+        // TODO: This should be part of 'legends.js'
+        function readRootValue( key ) {
+            const rs = getComputedRootPropertySheet();
+            return rs.getPropertyValue( key );
+        }
+        function writeRootValue( key, value ) {
+            const rs = getRootPropertySheet();
+            return rs.setProperty( key, value );
+        }
+        function getComputedRootPropertySheet() {
+            const root = document.firstElementChild;
+            return getComputedStyle( root );
+        }
+        function getRootPropertySheet() {
+            const root = document.firstElementChild;
+            return root.style;
+        }
+    </script>
+
+    <!-- [[ Styles ]] -->
+    <style details="Root Styles">
+        :root { 
+            /* TODO: make SOME of these persistent 
+               Calculated values must be maintained for proper functionality */
+            --origin-marker-size : 32px;
+            --menu-display : block;
+            --menu-scale   : 100%;
+            --menu-size    : 128px;
+            --navbar-scale : 100%;
+            --navbar-size  : 128px;
+            --darko : rgba(   4,   4,  42, 0.942 );
+            --brite : rgba( 252, 252, 172, 0.942 );
+            --salvo : rgba(  42, 142, 142, 0.420 );
+            --based : rgba(  14,  42,  42, 0.742 );
+            --compass-fgnd : white;
+            --compass-bgnd : black;
+            --compass-border : gold;
+            --compass-shadow : skyblue;
+            --compass-radius : 64px;
+            /* These are to remain as-is */
+            --compass-line-height : calc( var(--compass-radius) * 2 );
+            --compass-font-size : calc( var(--compass-radius) * 1.84 );
+            --compass-padding : calc( var(--compass-radius) * 0.16 );
+            --needle-y-shift : calc( 0px - var(--compass-radius) * 0.315 );
+        }
+    </style>
+    <style details="Depth Layers">
+        :root {
+            --layer0 : 0;
+            --layer1 : 0;
+            --layer2 : 0;
+            --layer3 : 0;
+            --layer4 : 0;
+            --layer5 : 0;
+        }
+        .layer0 { z-index : var( --layer0 ); };
+        .layer1 { z-index : var( --layer1 ); };
+        .layer2 { z-index : var( --layer2 ); };
+        .layer3 { z-index : var( --layer3 ); };
+        .layer4 { z-index : var( --layer4 ); };
+        .layer5 { z-index : var( --layer5 ); };
+    </style>
+    <style details="Document, Body">
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        html, body {
+            color: var( --brite );
+            background-color: var( --darko );
+        }
+    </style>
+    <style details="Canvas and Icons">
+        #canvas {
+            height: 100%;
+            background: inherit;
+            position: relative;
+            user-select: none;
+            transform: translate(0, 0);
+            will-change: transform;
+            cursor: default;
+        }
+        img.icon {
+            z-index: var( --layer2 );
+            position: absolute;
+            width:  256px;
+            height: 256px;
+            cursor: move;
+        }
+        img.icon:hover {
+            outline: 2px solid #00f;
+            border-radius: 21px !important;
+            box-shadow: 0px 0px 42px lightgreen !important;
+            background-color: black;
+        }
+    </style>
+    <style details="Main, Header, Footer">
+        footer {
+            z-index: var( --layer4 );
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            margin : 0;
+            color: var( --darko );
+            background-color: var( --brite );
+            text-align: center;
+            font-family : "Noto Mono", monospace;
+            font-size   : 16pt;    
+        }
+        main {
+            border   : none;
+            margin   : 0;
+            padding  : 0;
+            width    : 100%;
+            height   : 100%;
+            position : fixed;
+            top      : 0;
+            left     : 0;
+            overflow : hidden;
+            color    : inherit;
+            background-color: inherit;
+        }
+    </style>
+    <style details="SIP Editor, SSS Container">
+        #sip {
+            font-family : "Noto Mono", monospace;
+            font-size : 14pt;
+            width : calc( 100% - 80px );
+            min-width  : 100px;
+            min-height : 100px;
+            max-height : 84vh;
+            padding : 1.42ch;
+        }
+    </style>
+    <style details="Animation">
+        @keyframes origin-marker {
+            0%   { opacity : 1; }
+            50%  { opacity : 0; }
+            100% { opacity : 1; }
+        }
+        @keyframes shimmy-hz {
+            0%   { transform: translate(    0px, 0px ); }
+            25%  { transform: translate( -142px, 0px ); }
+            50%  { transform: translate(    0px, 0px ); }
+            75%  { transform: translate(  142px, 0px ); }
+            100% { transform: scale( 1 ); }
+        }
+        @keyframes shimmy-vt {
+            0%   { transform: translate( 0px,    0px ); }
+            25%  { transform: translate( 0px, -142px ); }
+            50%  { transform: translate( 0px,    0px ); }
+            75%  { transform: translate( 0px,  142px ); }
+            100% { transform: scale( 1 ); }
+        }
+        @keyframes shrink-fade {
+            0%   { transform: scale( 1.0 ); opacity: 1.0; }
+            50%  { transform: scale( 0.5 ); opacity: 0.5; }
+            100% { transform: scale( 0.0 ); opacity: 0.0; }   
+        }
+    </style>
+    <style details="Special Effects Classes">
+        .hidden {
+            display: none;
+        }
+        .gold-aura {
+            border-radius: 42px !important;
+            box-shadow: 0px 0px 42px gold !important;
+            background-color: var( --brite ) !important;
+        }
+        .shimmy-hz {
+            animation: shimmy-hz 0.342s linear forwards;
+        }
+        .shimmy-vt {
+            animation: shimmy-vt 0.342s linear forwards;
+        }
+        .shrink-fade {
+            animation: shrink-fade 0.342s ease-in-out forwards;
+        }
+        .zoomed {
+            width  : 100vw;
+            height : 100vh;
+        }
+        .floating {
+            z-index  : var( --layer4 );
+            position : fixed;
+            height   : auto;
+            width    : auto;
+            resize   : both;            
+        }
+        .content {
+            display  : inline-block;
+            position : relative;
+            height   : 100%;
+            width    : 100%;
+        }
+        .content iframe {
+            width  : 100%;
+            height : 100%;
+            color : black;
+            background : white;
+        }
+        [draggable] {
+            cursor : move;
+        }
+        [href] ,
+        [onclick] {
+            cursor : pointer;
+        }
+    </style>
+    <style details="Gadget Window (Floating Fieldset)">
+        fieldset.floating:hover ,
+        fieldset.floating:active ,
+        fieldset.floating:focus {
+            box-shadow: 0px 0px 42px midnightblue !important;
+        }
+        fieldset.floating {
+            top    : 42px;
+            left   : 42px;
+            width  : 42%;
+            height : 64%;
+            border : none;
+            border-radius : 0;
+            border-top-left-radius  : 42px;
+            border-top-right-radius : 9px;
+            padding : 21px;
+            background : var( --based );
+            box-shadow : 0px 0px 42px black;
+        }
+        fieldset legend {
+            display     : inline-block;
+            border      : none;
+            color       : transparent;
+            background  : transparent;
+            width       : 95%;
+            margin-left : 3%;
+            font-family : "Noto Mono", monospace;
+            font-size   : 14pt;            
+        }
+        legend input {
+            border-radius : 21px;
+            width         : calc( 92% - 42px );
+            padding       : 5px;
+            padding-right : 12px;
+            padding-left  : 12px;
+        }
+        .close-button {
+            margin-left   : 1.42ch;
+            border-radius : 50%;
+            padding       : 8px;
+            cursor        : pointer;
+        }
+        legend input ,
+        .close-button {
+            color       : var( --darko );
+            background  : var( --brite );
+            display     : inline-block;
+            border      : none;
+            font-family : inherit;
+            font-size   : inherit;
+        }
+        legend input:hover ,
+        .close-button:hover {
+            box-shadow : 0px 0px 21px green;
+        }
+    </style>
+    <style details="Origin Marker">
+        #origin-marker {
+            position : relative;
+            display: inline-block;
+            width: var( --origin-marker-size );
+            height: var( --origin-marker-size );
+            background: red;
+            border : 1px solid var( --compass-border );
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: LAYER4;
+            box-shadow: 0 0 10px rgba( 242, 242, 0, 0.842 );
+            animation: origin-marker 1.5s linear infinite;
+            cursor : pointer;
+        }
+    </style>
+    <style details="Compass">
+        #needle {
+            font-size : inherit;
+            background-color : transparent;
+            border : none;
+            width : inherit;
+            height : inherit;
+            text-shadow: inherit;
+            transform : translate( 0px, var( --needle-y-shift ) );
+        }
+        #compass {
+            z-index: var( --layer4 );
+            position: fixed;
+            bottom: calc( 42px + 10px );
+            left: 10px;
+            padding: var( --compass-padding );
+            line-height: var( --compass-line-height );
+            font-size: var( --compass-font-size );
+            width: calc( var(--compass-radius) * 2 );
+            height: calc( var(--compass-radius) * 2 );
+            border : 2px solid var( --compass-border );
+            text-shadow: 0px 0px 17px var( --compass-shadow );
+            background-color: var( --compass-bgnd );
+            color: var( --compass-fgnd );
+            text-align: center;
+            margin : 0;
+            border-radius: 50%;
+            transform: rotate(0deg);    
+        }
+        #needle, #compass {
+            user-select: none;
+            cursor: pointer;
+        }
+        #compass:hover {
+            background-color: red;
+            animation: origin-marker 1.5s linear infinite;
+            box-shadow: 0px 0px 42px var( --compass-shadow ) !important;
+        }
+    </style>
+    <style details="Menu Scaling Input Gadget"> 
+        #menu-scale {
+            width : 25%;
+            min-width: 100px;
+        }
+    </style>
+    <style details="Dot Containers (nav, menu)"> 
+        nav.dots ,
+        menu.dots {
+            z-index: var( --layer3 );
+            position: fixed;
+            display: var( --menu-display );
+            user-select: none;
+            height: auto; 
+            margin : 0;
+            padding: 21px;
+            border-radius: 42px;
+            background-color: var( --salvo ); 
+            cursor: move;
+        }
+        nav.dots:hover ,
+        menu.dots:hover {
+            background-color: var( --salvo );
+            box-shadow: 0px 0px 42px skyblue !important;
+        }
+        nav.dots:active ,
+        nav.dots:hover ,
+        nav.dots[draggable] ,
+        nav.dots {
+            transform: scale( var( --navbar-scale ) ) !important; 
+        }
+        menu.dots:active ,
+        menu.dots:hover ,
+        menu.dots[draggable] ,
+        menu.dots {
+            transform: scale( var( --menu-scale ) ) !important; 
+        }
+    </style>
+    <style details="Dot Gadgets (a, button)">
+        button.dot ,
+        a.dot {
+            z-index : 10;
+            display: inline-block;
+            width: var( --menu-size );
+            height: var( --menu-size );
+            text-align: center;
+            line-height: var( --menu-size );
+            font-size: calc( var( --menu-size ) / 2 );
+            color: white;
+            background-color: black;
+            border-radius: 50%;
+            text-decoration: none;
+            margin : 2px;
+            cursor : pointer;
+            transition: transform 0.342s ease-in-out;            
+        }
+        button.dot:hover ,
+        a.dot:hover {
+            box-shadow: 0px 0px 42px black !important;
+        }
+        button.dot:focus ,
+        button.dot:active ,
+        a.dot:focus ,
+        a.dot:active {
+            box-shadow: 0px 0px 42px gold !important;        
+        }
+        button.dot:focus ,
+        button.dot:hover ,
+        button.dot:active ,
+        a.dot:focus ,
+        a.dot:hover ,
+        a.dot:active {
+            z-index : 100;
+            transform: scale( 1.2 );
+            background-color: var( --salvo );
+        }        
+    </style>
+    <style details="Sandbox">
+        .other {
+            color : rgba(245, 255, 250, 0.987);
+            --mint : mintcream;
+        }
+    </style>
+</head>
+<body> 
+
+    <main>
+        <div id="canvas"></div>
+        <div id="compass" onclick="pointNeedleFromItsCenterToCanvasOrigin()">
+            <div id="needle">→</div>
+        </div>
+    </main>
+
+    <footer>
+        <button onclick="toggleViewMode()" title="Toggle Editor">📝</button>
+        <button onclick="showHelp()" title="Show Help">🤷</button>
+        <button onclick="toggleMenuVisibility()" title="Toggle Dot Menus">🔘</button>
+        <!-- This will scale the menu(s) rather than the dot(s), so it's a misnomer; however the dots will scale too! -->
+        <input oninput="updateMenuScale()" type="range" id="menu-scale" min="12.5" max="125" step="1" value="100" title="Menu Dot Scale">
+    </footer>
+
+    <div class="hidden" id="sss-container">
+        <textarea class="sss" id="sip" wrap="off" rows="42"></textarea>
+    </div>
+
+    <script details="Global Helpers">
+
+        const px = n => ( `${n}px` );
+
+    </script> <script details="Global Variables and Constants">
+
+        const NO_TRANSLATE = "translate(0px,0px)";
+        const NO_ROTATE    = "rotate(0deg)";
+        const NO_SCALE     = "scale(100%)";
+
+        const LAYER0 = 0;
+        const LAYER1 = 42;
+        const LAYER2 = 4242;
+        const LAYER3 = 424242;
+        const LAYER4 = 42424242;
+
+        const viewport = document.firstElementChild;
+        const canvas = document.getElementById('canvas');
+        const iconKey = document.title + ' ~ Icons';
+        const menuKey = document.title + ' ~ Menus';
+        const scriptKey = document.title + ' ~ Script';
+        const settingsKey = document.title + ' ~ Settings';
+
+        // TODO : Clamp Log Lengths
+        // TODO : Persist URL log
+        const scriptLogs = {
+            input  : [],
+            output : [],
+            error  : [],
+            url    : []
+        };
+
+        // Volatile and transitory
+        let altPressed = false;
+        let isDraggingMenu = false;
+        let isDraggingIcon = false, 
+            draggedImg = null, 
+            offsetX, offsetY;
+        let isDraggingView = false, 
+            viewStartX, viewStartY, 
+            translateX = 0, translateY = 0;
+        let mostRecentIcon = null;
+        let shimmy = "";
+
+        // Persistent
+        let standardIconSize = 256;
+        let compassLocked = false;
+        let hintLimit = 42;
+        let currentHintSize = 16;
+
+        // Debug Info
+        let tileGridDetails = {};   
+
+    </script> <script details="SIP Editor Logs">
+
+        /* 
+            Regarding Acronyms and Nomenclature:
+
+                SSS = SIP / SOP / SER
+                SIP = Standard Input
+                SOP = Standard Output
+                SER = Standard Error
+
+            When a status bar is used, we include BAR:
+
+                BAR = Status Bar (okay, not an acronym, but a word)
+                SSSB = SSS w/ BAR
+
+            These are for compatibility w/ existing modules
+            and documentation.
+        */
+
+        function clearScriptLogs() {
+            scriptLogs.input.length  = 0;
+            scriptLogs.output.length = 0;
+            scriptLogs.error.length  = 0;
+            // Leave URLs intact
+        }
+
+        function examineScriptLogs() {
+            console.group( "Inputs" );
+            console.table( scriptLogs.input );
+            console.groupEnd();
+            console.group( "Outputs" );
+            console.table( scriptLogs.output );
+            console.groupEnd();
+            console.group( "Errors" );
+            console.table( scriptLogs.error );
+            console.groupEnd();
+            console.group( "URLs" );
+            console.table( scriptLogs.url );
+            console.groupEnd();
+        }
+
+    </script> <script details="SIP Script Execution">
+
+        // There's an "Anne" module that does this, so this is
+        // a TODO item...
+        function runScript() {
+            // The gid function is from legends.js
+            // It is used to get the element by ID
+            const sip = gid( 'sip' );
+            let input = sip.value;
+            let output = "";
+            let error  = "";
+            try { 
+                scriptLogs.input.push( input );
+                output = window.eval( input );
+                scriptLogs.output.push( output );
+            } catch( e ) {
+                error = e;
+                scriptLogs.error.push( e );
+            } finally {
+                const log = {
+                    input  ,
+                    output ,
+                    error
+                };
+                console.log( "Script Results: ", log );
+            }
+        }
+
+    </script> <script details="SIP Initialization">
+
+        function initEditor() {
+            const cache = localStorage;
+            const sip = gid( 'sip' );
+            // TODO: persistent script attributes title, filename, and url
+            sip.value = cache.getItem( scriptKey ) || "";
+            sip.style.tabSize = "4";
+            sip.addEventListener( 'keydown', handleEditorKey );
+            addEventListener( 'beforeunload', () => {
+                cache.setItem( scriptKey, sip.value );
+            });
+        }
+
+    </script> <script details="SIP Tab / Insert Support">
+
+        function insertText( s  ) {
+            const sip = gid( 'sip' );
+            const start = sip.selectionStart;
+            const end   = sip.selectionEnd;
+            const text  = sip.value;
+            const pos   = start + s.length;
+            sip.value = text.slice( 0, start ) + s + text.slice( end );
+            sip.setSelectionRange( pos, pos );
+            sip.focus();
+        }
+
+        function handleEditorTab( e ) {
+            if (! isEditView() ) { return false; }
+            if ( e.key === 'Tab' ) {
+                insertText( "\t" );
+                e.preventDefault();
+                return true;
+            }
+            return false;
+        }
+
+    </script> <script details="SIP Keyboard Events">
+
+        // TODO : Now that we have two views/modes, with overlapping hot keys,
+        // we need two hot key registries. 
+        // ALSO: Some filter for choosing which registry to use for all 
+        // functions that work with them.
+        // NOTE: Overlaps should MAKE SENSE contextually.
+        // IOW ~ User intuition should be considered.
+
+        function handleEditorKey( e ) {
+
+            if (! isEditView() ) { return; }
+            if ( handleEditorTab( e ) ) { return; }
+
+            function handled() {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Personal preference: memory aid for the elderly dev!
+            const key = e.key.toLowerCase();
+
+            // ALT gets precedence
+            // Other modifiers are ignored  
+            if ( e.altKey ) {
+                if ( key === 'enter' ) {
+                    runScript();
+                    return handled();
+                }
+                if ( key === 'insert' ) {
+                    try { 
+                        new GadgetWindow();
+                    } catch ( e ) {
+                        console.error( e );
+                        alert( e );
+                    }
+                    return handled();
+                }
+                if ( key === 'delete' ) {
+                    const hover = selma( 'fieldset:hover' );
+                    if ( hover ) {
+                        try { 
+                            document.body.removeChild( hover );
+                        } catch ( e ) {
+                            console.error( e );
+                            alert( e );
+                        }
+                    }
+                    return handled();
+                }
+                if ( key === 'd' ) {
+                    downloadSIP();
+                    return handled();
+                }
+                if ( key === 'f' ) {
+                    fetchSIP();
+                    return handled();
+                }
+                if ( key === 'k' ) { // Let's go with "k" for keys
+                    const sip = gid( 'sip' );
+                    const keys = thor.getCacheKeys().map(
+                        key => ( `🔑 ${key}` )
+                    )
+                    .sort()
+                    .join( "\n" );
+                    sip.value = keys;
+                    return handled();
+                }
+                if ( key === 'i' ) {
+                    examineScriptDetails( true );
+                    return handled();
+                }
+                if ( key === 'q' ) {
+                    showModuleContent();
+                    return handled();
+                }
+            }
+
+            // CTRL gets second chance
+            // Other modifiers are ignored (aside from ALT)
+            if ( e.ctrlKey ) {
+                if ( key === "f10" ) {
+                    toggleViewMode();
+                    return handled();
+                }                
+            }            
+        }
+
+    </script> <script details="SIP File I/O">
+
+        // FOOTNOTE: Cache persistence AND file I/O... SLICK! 👌
+
+        function downloadSIP() {
+            const sip = gid( 'sip' );
+            let filename = sip.getAttribute( "filename" ) || "script.js";
+            filename = prompt( "Enter filename to save as:", "script.js" );
+            filename = filename ? filename.trim() : "";
+            if ( filename ) { // TODO: Use rico() for this
+                sip.setAttribute( "filename", filename );
+                const blob = new Blob([ sip.value ], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        function fetchSIP() { // Pretty sure this has a legend function too.
+            let url = sip.getAttribute( "url" ) 
+                || "http://localhost/42/api/x3a/juba.js";
+            url = prompt( 
+                "Enter URL to fetch from:", 
+                url
+            );
+            url = url ? url.trim() : "";
+            if ( url ) {
+                fetch( url )
+                    .then( resp => resp.text() )
+                    .then( text => {
+                        const sip = gid( 'sip' );
+                        sip.value = text;
+                        sip.setAttribute( 'url', url );
+                        scriptLogs.url.push( url );
+                    } )
+                    .catch( error => {
+                        console.error( "Error fetching SIP: ", error );
+                        sip.value = error;
+                    } );
+            }
+        }
+
+    </script> <script details="Show Module Content">
+
+        /*
+
+            Read inner text from a script or style element
+            and display it in the SIP editor.
+            
+            HOTKEY is [ALT]+[Q]
+            SEE: handleEditorKey()
+
+            The hotkey is only available when the SIP editor
+            is visible.
+        */
+
+        function showModuleContent() {
+            const sip = gid( 'sip' );
+            const start = sip.selectionStart;
+            const end   = sip.selectionEnd;
+            let text  = sip.value.slice( start, end ).trim();
+            if (! text ) return;
+            function tail( s ) {
+                const parts = s.split( " " );
+                parts.shift();
+                return parts.join( " " ).trim();
+            }
+            if ( isURL( text ) ) {
+                showPopup( text );
+                return;
+            }
+            if ( 
+                text.startsWith( "Ⓜ️" ) ||
+                text.startsWith( "🎨" )                 
+            ) {
+                let q = `[details="${tail(text)}"]`;
+                const module = selma( q );
+                if ( module ) {
+                    sip.value = module.innerText
+                        || module.textContent
+                        || module.src
+                        || module.href
+                        || module.outerHTML
+                        || "⛔";
+                }
+            } else if ( text.startsWith( "🔑" ) ) {
+                let key = tail(text);
+                sip.value = ( localStorage.getItem( key ) || "⛔" );
+            } else {
+                const q = encodeURI( text );
+                const origin = "https://bing.com";
+                const url = `${origin}/search?q=${q}`;
+                showPopup( url );
+            }
+        }
+
+    </script> <script details="Check View / Mode">
+
+        function isEditView() {
+            const container = gid( 'sss-container' );
+            return !container.classList.contains( 'hidden' );
+        }
+
+    </script> <script details="Toggle Between Editor View and Icon View">
+
+        function toggleViewMode() {
+            const main = selma( 'main' ); // selma calls querySelector
+            const container = gid( 'sss-container' );
+            if ( isEditView() ) {
+                container.classList.add( 'hidden' );
+                main.classList.remove( 'hidden' );
+                main.focus();
+                console.log( 'Icon View' );
+            } else {
+                container.classList.remove( 'hidden' );
+                main.classList.add( 'hidden' );
+                gid( 'sip' ).focus();
+                console.log( 'Editor View' );
+            }
+        }
+
+    </script> <script details="Update Menu / Dot Scale">
+
+        // Read computed CSS dot scale
+        function getMenuScale() {
+            const root = document.documentElement;
+            const rs = getComputedStyle( root );
+            return parseFloat( rs.getPropertyValue( "--menu-scale" ) );
+        }
+        
+        // Programmatic Scale Change
+        // NOTE : Call updateMenuScaleInputGadget() after this
+        function setMenuScale( scale ) {
+            scale = clampMenuScale( scale );
+            const pct = composePercent( scale );
+            const root = document.documentElement;
+            root.style.setProperty( '--menu-scale', pct );
+            const input = gid( 'menu-scale' );
+            input.title = `Menu Dot Scale (${pct})`;
+            console.log( "Set Menu Scale: ", pct );
+        }
+
+        // Input Event Handler
+        function updateMenuScale( event ) {
+            const input = gid( 'menu-scale' );
+            setMenuScale( input.value );
+        }
+
+        // Programmatic Update to Input Gadget
+        function updateMenuScaleInputGadget() {
+            const scale = getMenuScale();
+            const pct = composePercent( scale );
+            const input = gid( 'menu-scale' );
+            input.value = scale;
+            input.title = `Menu Dot Scale (${pct})`;
+        }
+
+    </script> <script details="Point Needle from its Center to Canvas Origin">
+
+        function pointNeedleFromItsCenterToCanvasOrigin() {
+            // const needle = document.getElementById('needle');
+            const compass = document.getElementById('compass');
+            const rect = compass.getBoundingClientRect();
+            const x = rect.left + (rect.width  / 2) - translateX;
+            const y = rect.top  + (rect.height / 2) - translateY;
+            const cx = canvas.clientWidth  / 2;
+            const cy = canvas.clientHeight / 2;
+            const vector = { x: cx - x, y: cy - y };
+            const angle = Math.atan2( vector.y, vector.x );
+            const degrees = angle * (180 / Math.PI);
+            compass.style.transform = composeRotateDeg( degrees );
+        }
+
+    </script> <script details="Icon Z-Sorting">
+
+        function bringMostRecentIconToFront() {
+            const ge = mostRecentIcon;  // ge => Gadget Element
+            if ( ge ) {
+                const gs = ge.style;    // gs => Gadget Style
+                gs.zIndex = LAYER2;
+                gs.transform = composeScale( 1.2 );
+                setTimeout( () => {
+                    gs.transform = composeScale( 1 );
+                }, 420 );
+            }
+            // Send all others to back
+            thelma( '.icon' )
+            .forEach( icon => {
+                if ( icon !== ge ) {
+                    icon.style.zIndex = 0;
+                }
+            } );
+        }
+
+    </script> <script details="Origin Marker Visibility">
+
+        function toggleOriginMarker() {
+            const marker = document.getElementById( 'origin-marker' );
+            if ( marker ) { marker.remove(); }
+            else { addOriginMarker(); }
+        }
+
+        function removeOriginMarker() {
+            const marker = document.getElementById( 'origin-marker' );
+            if ( marker ) { marker.remove(); }
+        }
+
+        function addOriginMarker() {
+            removeOriginMarker();
+            const marker = ella( 'div' );
+            marker.id = 'origin-marker';
+            marker.title = "Click to recenter and tile icons";
+            marker.onclick = () => { tileIcons(); };
+            canvas.appendChild( marker );
+        }
+
+    </script> <script details="Math Helpers (range clamps)">
+
+        // Icon sizes are limited to a certain range
+        // This is the same range as is used by dot menus BTW
+        function clampSize( n, lo, hi, orelse ) {
+            const min = Math.min( lo, hi );
+            const max = Math.max( lo, hi );
+            return Math.min( Math.max( n, min ), max ) || orelse;
+        }
+
+        // Icon sizes are limited to a certain range
+        // This is the same range as is used by dot menus BTW
+        function clampIconSize( n ) {
+            return clampSize( n, 32, 512, 256 );
+        }
+
+        // Hint sizes are limited to a certain range
+        function clampHintSize( n ) {
+            return clampSize( n, 1, hintLimit, currentHintSize );
+        }
+
+        // Dot scales are limited to a certain range
+        function clampMenuScale( n ) {
+            // We let the HTML input element determine range
+            const input = gid( 'menu-scale' );
+            const min = parseFloat( input.min ) || 12.5;
+            const max = parseFloat( input.max ) ||  125;
+            return clampSize( n, min, max, 100 );
+        }
+
+    </script> <script details="Prepare a Hint String">
+
+        // Limit hints (add elipses, if needed)
+        // TODO : Hint Limit Should be Configurable / Persistent
+        function prepareHint( s, limit = hintLimit ) {
+            const NONE = "⛔";
+            const MORE = " ...";
+            if (! s ) return NONE;
+            s = s.trim();
+            if ( s.length < 1 ) return NONE;
+            limit = clampHintSize( limit );
+            if ( s.length <= limit ) return s;
+            return ( s.slice( 0, limit ) + MORE );
+        }
+
+    </script> <script details="Prepare Persistent Settings as JSON">
+        // This excludes SIP Script, Icons, and Dot Menus
+        function prepareSettingsJSON() {
+            // Eventually, icons will be resizable too
+            const iconSize = clampIconSize( standardIconSize );
+            const settings = {
+                iconSize,           
+                compassLocked,
+                hintLimit, currentHintSize,
+                editorView : isEditView()
+                // HACK: Start at 100% to avoid position shift issue!
+                // menuScale   : getMenuScale()
+            };
+            return JSON.stringify( settings );
+        }
+
+    </script> <script details="Restore Persistent Settings from JSON">
+        // This excludes SIP Script, Icons, and Dot Menus
+        function restoreSettingsJSON( settings ) {
+            if (! settings ) {
+                console.warn( "Missing or empty settings ignored" );
+                return;
+            }
+            const json = JSON.parse( settings );
+
+            // FOOTNOTE: This naming business is a failure to be clear
+            // on my part. I envisioned two names to begin with:
+            // The "standard" 256x256 is a constant. The customizable
+            // value is a mutable variable. The former is a default, the
+            // latter varies based on user preferences.
+
+            // === START OF HACK ===
+            // TODO : Verify ALL LAN hosts have removed older variable name
+            // THEN : This HACK can be deleted
+            //----------------------
+            // This is a temporary hack to deal with the older name.
+            // Once cached state is overwritten, the older name will vanish.
+            // Each LAN host needs to do this at least once.
+            const size = json.iconSize || json.standardIconSize;
+            // === END OF HACK ===
+
+            // === START OF REPLACEMENT ===
+            // const size = json.iconSize;
+            // === END OF REPLACEMENT ===
+
+            // In fact, once all is clear here, we'll split this
+            // into mutable and immutable values. LATER!
+            standardIconSize = clampIconSize( size );
+
+            hintLimit = Math.max( 
+                1, 
+                parseInt( json.hintLimit ) || 42
+            );
+
+            currentHintSize = clampHintSize( 
+                parseInt( json.currentHintSize ) || 16
+            );
+
+            // HACK : Start at 100% to avoid position shift issue
+            // setMenuScale( json.menuScale || 100 );
+            // updateMenuScaleInputGadget();
+            
+            compassLocked = json.compassLocked || false;
+            if ( compassLocked ) {
+                showCompass( compassLocked );
+            } else {
+                hideCompass();
+            }
+            if ( json.editorView ) {
+                toggleViewMode();
+            }
+        }
+
+    </script> <script details="Save App State">
+
+        // NOTE: SIP Editor State is Handled Elsewhere
+        function saveAppState() {
+            const cache = localStorage;
+            let iconHTML, menuJSON, settingsJSON;
+            removeOriginMarker();
+            // Persist Icons (HTML)
+            iconHTML = canvas.innerHTML;
+            cache.setItem( iconKey, iconHTML );
+            // Persist Menus (JSON)
+            const menuDetails = createDotMenuStateDetails();
+            menuJSON = JSON.stringify( menuDetails );
+            cache.setItem( menuKey, menuJSON );
+            // Persist Settings (JSON)
+            settingsJSON = prepareSettingsJSON();
+            cache.setItem( settingsKey, settingsJSON );
+            // Prepare Hints
+            iconHTML = prepareHint( iconHTML );
+            menuJSON = prepareHint( menuJSON );
+            settingsJSON = prepareHint( settingsJSON );
+            console.log( "🔏", "Saved App State to Cache: ", { 
+                iconHTML, menuJSON, settingsJSON
+            } );
+        }
+
+    </script> <script details="Load App State">
+
+        // NOTE: SIP Editor State is Handled Elsewhere
+        function loadAppState() {
+            const cache = localStorage;
+            let iconHTML, menuJSON, settingsJSON;
+            let cornerCount = 0, menuCount = 0;
+            // Restore Settings (JSON)
+            // This should happen first, so metrics are proper for the rest
+            settingsJSON = cache.getItem( settingsKey );
+            restoreSettingsJSON( settingsJSON );
+            // Restore Icons (HTML)
+            iconHTML = cache.getItem( iconKey );
+            if ( iconHTML ) canvas.innerHTML = iconHTML;
+            // Restore Menus (JSON)
+            menuJSON = cache.getItem( menuKey );
+            if ( menuJSON ) {
+                let menuData = null, 
+                    menuCorners = null, 
+                    menuDots = null;
+                menuData = JSON.parse( menuJSON );
+                menuCorners = menuData.menuCorners;
+                cornerCount = menuCorners ? menuCorners.length : 0;
+                menuDots    = menuData.menuDots;
+                if ( menuDots ) {
+                    menuCount = menuDots.length;
+                    menuDots.forEach( ( menu, i ) => {
+                        const dots = createDotMenu( menu );
+                        const { x, y } = menuCorners 
+                            ? menuCorners[i] 
+                            : randomViewPosition();
+                        dots.style.left = px( x );
+                        dots.style.top  = px( y );
+                        dots.style.zIndex = LAYER2;
+                        dots.style.transform = NO_TRANSLATE;
+                    } );
+                } 
+                gatherAllMenusIntoViewport(); 
+                console.log( "Menu Stats: ", { cornerCount, menuCount } );
+            }
+            addOriginMarker();
+            makeIconsDraggable();
+            // Prepare Hints
+            iconHTML = prepareHint( iconHTML );
+            menuJSON = prepareHint( menuJSON );
+            settingsJSON = prepareHint( settingsJSON );
+            // Examine Hints in Debug Console
+            console.log( "🔓", "Loaded App State from Cache: ", { 
+                iconHTML, menuJSON, settingsJSON
+            } ); 
+        }
+
+    </script> <script details="Load Dropped File from Payload">
+
+        // 🚨 This is poor IP-Sec (for testing)
+        const defaultDropURL = "./";
+
+        function loadDroppedImage( file, event, { ix, iy } ) {
+            const reader = new FileReader();
+            const dt = event.dataTransfer;
+            let url = defaultDropURL;
+            // On fate: we'll assume the dev is going to give us good args.
+            if ( dt ) { // No sense tempting fate with 3rd parties. 😉
+                url = getFirstURL( dt.getData('text/uri-list') ) 
+                || dt.getData('text/plain') 
+                || defaultDropURL; 
+                // I (almost) always default to the working folder. 
+                // MINOR Bad IP-Sec can be fixed later.
+            }
+            const title = file.name || url;
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const resizedDataUrl = resizeIconWithTransparency(img);
+                    const newImg = new Image();
+                    newImg.src = resizedDataUrl;
+                    newImg.className  = 'icon';
+                    newImg.style.left = px( ix - translateX - 128 ); // Adjust for view offset
+                    newImg.style.top  = px( iy - translateY - 128 );
+                    // TODO: These should be user configurable
+                    newImg.setAttribute('url', url);
+                    newImg.setAttribute('title', title);
+                    newImg.setAttribute('tikey', TiGG()); // Unique to each icon
+                    // These keys can be sorted in the DB engine later, to deal with
+                    // multiple tikeys for the same URL.
+                    newImg.title = title;
+                    canvas.appendChild(newImg);
+                    makeIconsDraggable();
+                };
+            };
+            reader.readAsDataURL( file );
+        }
+
+    </script> <script details="Drop Payload Parsing">
+
+        function isURL( s ) {
+            try {
+                const url = new URL( s );
+                const ok = ( url.protocol === "http:" || url.protocol === "https:" );
+                console.log( "isURL: ", s, ok ); 
+                return ok;
+            } catch ( e ) {
+                console.error( "isURL: ", s, e ); 
+                return false;
+            }
+        }
+
+        function uriListToLinkDefArray( list ) {
+            const str = o => ( "string" === typeof o ) ? o.trim() : "";
+            return list.split( '\n' )
+                .map( str )
+                .filter( isURL );
+        }
+
+        function getFirstURL( list ) {
+            const urls = uriListToLinkDefArray( list );
+            if ( urls.length > 0 ) {
+                return urls[ 0 ];
+            } else {
+                return "";
+            } 
+        }
+
+        function plainTextToLinkDef( list ) {
+            const str = o => ( "string" === typeof o ) ? o.trim() : "";
+            const lines = list.split( '\n' )
+                .map( str )
+                .filter( s => (!! s ) );
+            return lines.length > 0 ? lines[ 0 ] : "";
+        }
+
+    </script> <script details="Create Menus and Dots from Dropped Payloads">
+
+        function createDotsURIList( list ) {
+            const linkDefs = uriListToLinkDefArray( list );
+            if ( linkDefs.length > 0 ) {
+                createDotMenu( linkDefs );
+            } else {
+                console.log( "No valid URLs found in the dropped payload." );
+            }
+        }
+
+        function createDotsPlainText( list ) {
+            let linkDef = plainTextToLinkDef( list );
+            if ( linkDef.length > 0 ) {
+                linkDef = { 
+                    decal: firstDecal( linkDef ) 
+                };
+                createDotMenu( [ linkDef ] );
+            } else {
+                console.log( "No valid decal found in the dropped payload." );
+            }
+        }
+
+    </script> <script details="Icon Sizing">
+
+        // Resize to fit appropriate square: with transparent padding.
+        // FOOTNOTE: This is code generated by Grok. I ❤️ it!
+        // This was in fact the central purpose for the app ~ snagging icons
+        function resizeIconWithTransparency( img ) {
+
+            const { naturalWidth: width, naturalHeight: height } = img;
+            let newWidth, newHeight;
+
+            // Limit size range to [ 32 ... 512 ]
+            // TODO : Persisting state should enforce this rule too
+            let size = standardIconSize
+            size = Math.min( Math.max( size, 32 ), 512 );
+
+            if (width > height) {
+                newWidth = size;
+                newHeight = Math.round( (height / width) * size );
+            } else {
+                newHeight = size;
+                newWidth = Math.round( (width / height) * size );
+            }
+
+            const tempCanvas = ella( 'canvas' ); // Ella is a legends.js function
+            tempCanvas.width = size;
+            tempCanvas.height = size;
+            const ctx = tempCanvas.getContext( '2d' );
+            ctx.clearRect( 0, 0, size, size );
+
+            const offsetX = (size - newWidth ) / 2;
+            const offsetY = (size - newHeight) / 2;
+            ctx.drawImage( img, offsetX, offsetY, newWidth, newHeight );
+
+            return tempCanvas.toDataURL('image/png');
+
+        }
+
+    </script> <script details="Icon Draggability">
+
+        // Make icons draggable (left-click)
+        function makeIconsDraggable() {
+            document.querySelectorAll('.icon').forEach(img => {
+                img.addEventListener('mousedown', startIconDrag);
+            });
+        }
+
+    </script> <script details="Compass Visibility">
+
+        function showCompass( lock = false ) {
+            compassLocked = compassLocked || lock;
+            const compass = document.getElementById('compass');
+            compass.style.display = 'block';    
+        }
+
+        function hideCompass() {
+            if ( compassLocked ) { return; }
+            const compass = document.getElementById('compass');
+            compass.style.display = 'none';    
+        }
+
+        // Handled by onPageLoad
+        // hideCompass();
+
+    </script> <script details="CSS Variable Composition">
+
+        function composePercent( x ) {
+            return `${x}%`;
+        }
+
+        function composeScale( x ) {
+            return `scale(${x})`;
+        }
+
+        function composeScalePct( x ) {
+            return `scale(${x}%)`;
+        }
+
+        function composeTranslatePix( x, y ) {
+            x = px( x );
+            y = px( y );
+            return `translate(${x},${y})`;
+        }
+
+        function composeRotateDeg( d ) {
+            return `rotate(${d}deg)`;            
+        }
+
+    </script> <script details="Compass Rotation">
+
+        function calculateVectorToCanvasOrigin( gadget ) {
+            const rect = gadget.getBoundingClientRect();
+            const x = rect.left + (rect.width  / 2) - translateX;
+            const y = rect.top  + (rect.height / 2) - translateY;
+            const cx = canvas.clientWidth / 2;
+            const cy = canvas.clientHeight / 2;
+            return { x: cx - x, y: cy - y };
+        }
+
+        function convertVectorNormalToDegrees( vector ) {
+            const angle = Math.atan2( vector.y, vector.x );
+            const degrees = angle * ( 180 / Math.PI );
+            return degrees;
+        }
+
+        function updateCompassRotation( gadget ) {
+            const vector = calculateVectorToCanvasOrigin( gadget );
+            const degrees = convertVectorNormalToDegrees( vector );
+            const compass = document.getElementById( 'compass' );
+            compass.style.transform = composeRotateDeg( degrees );
+            //`rotate(${degrees}deg)`;  
+        }
+
+    </script> <script details="Icon Dragging">
+
+        function startIconDrag( e ) {
+            if ( e.button === 0 && !altPressed ) { // Left-click only
+                isDraggingIcon = true;
+                mostRecentIcon = draggedImg = e.target;
+                bringMostRecentIconToFront();
+                offsetX = e.clientX - parseInt( draggedImg.style.left || 0 );
+                offsetY = e.clientY - parseInt( draggedImg.style.top  || 0 );
+                showCompass()
+                updateCompassRotation( draggedImg );
+                e.preventDefault();
+            }
+        }
+
+    </script> <script details="Double Click Event Handler">
+
+        function onDoubleClick( e ) {
+            recenterCanvas(); // Always center the canvas
+            if ( e.button === 0 ) { // Left-click
+                // If we double-click an icon, center it too
+                const hover = selma( 'img.icon:hover' );
+                if ( hover ) {
+                    centerGadgetWithinCanvas( hover );
+                }
+                e.preventDefault();
+            }
+        }
+
+    </script> <script details="Drag-Drop and Drag-Over Event Handler">
+
+        // Drag-and-drop files
+        // We need to detect and accept dropped payloads that are not
+        // images. In the case of dropped URLs, we call createDotGroup,
+        // which formats the URLs as "linkDefs", which are then passed to
+        // createDotMenu. This creates a menu of links that can be used
+        // to open the URLs in a new tab. These links should also be persisted
+        // to localStorage, so that they are available when the page is reloaded.
+        // If the dropped payload is not a URL or Image (i.e. plain text), we
+        // take the first unicode code point as a decal and assign it a default
+        // URL. Then we create a dot anchor (using createDotAnchor) for this one 
+        // link.
+        function onDragOver( e ) { e.preventDefault() };
+
+        function onDragDrop( e ) {
+            if ( isDraggingMenu ) { return; }
+            e.preventDefault();
+            const dt = e.dataTransfer;
+            const file = dt.files[ 0] ;
+            if ( !file || !file.type.startsWith( 'image/' ) ) {
+                // Handle URLs first, since they're also often encoded as text
+                const url = dt.getData( 'text/uri-list' );
+                if (url) {
+                    createDotsURIList( url );
+                    return;
+                }
+                const text = dt.getData( 'text/plain' );
+                if (text) {
+                    createDotsPlainText( text );
+                    return;
+                }
+                // Okay to fail silently here.
+                // console.log( 'Dropped file is not an image or URL.' );
+                return; 
+            } else {
+                // Magic time! We have a new Icon to load...
+                const ix = e.clientX;
+                const iy = e.clientY;
+                loadDroppedImage( file, e, { ix, iy } );
+            }
+        };
+
+    </script> <script details="Mouse Down Event Handler">
+
+        /*
+            Priority is given to Dot Button events, so we call
+            dotButtonMouseEvent first and bail out if it handles
+            the event.
+        */
+
+        function onMouseDown( e ) {
+            if ( dotButtonMouseEvent( e ) ) { return; }
+            if ( e.button === 2 ) { // Right-click
+                isDraggingView = true;
+                viewStartX = e.clientX - translateX;
+                viewStartY = e.clientY - translateY;
+                canvas.style.cursor = 'grabbing';
+                e.preventDefault();
+            }
+        };
+
+    </script> <script details="Mouse Move Event Handler">
+
+        function onMouseMove( e ) {
+            // Icon Dragging
+            if ( isDraggingIcon && draggedImg ) {
+                draggedImg.style.left = px( e.clientX - offsetX );
+                draggedImg.style.top  = px( e.clientY - offsetY );
+                updateCompassRotation( draggedImg );
+            }
+            // Canvas Dragging
+            if ( isDraggingView ) {
+                translateX = e.clientX - viewStartX;
+                translateY = e.clientY - viewStartY;
+                canvas.style.transform = composeTranslatePix( 
+                    translateX, translateY 
+                );
+                pointNeedleFromItsCenterToCanvasOrigin();
+            }
+        };
+
+    </script> <script details="Mouse Up Event Handler">
+
+        function onMouseUp( e ) {
+            // Icon Drag is Ending
+            if ( e.button === 0 && isDraggingIcon ) {
+                isDraggingIcon = false;
+                draggedImg = null;
+                hideCompass();
+            }
+            // Canvas Drag is Ending
+            if ( e.button === 2 && isDraggingView ) {
+                isDraggingView = false;
+                canvas.style.cursor = 'default';
+            }
+        };
+
+    </script> <script details="Icon Tiling">
+
+        function tileIcons() {
+
+            // Make use of existing code to reduce eye-clutter
+            const icons = thelma( 'img.icon' );
+            const numIcons = icons.length;
+
+            if ( numIcons < 1 ) { // It's a math geek thing 
+                console.log( "No icons were found to tile." );
+                return; 
+            }
+
+            // TODO : Group with other globals
+            let tileGridDetails = {};
+
+            //---------------------------------------------------------
+            // We're interested in what's physically visible, so we
+            // use viewport rather than canvas for tiling grid calc.
+            // Since we recenter, this is sensible. We can't help too
+            // many rows, but we can at least fit columns to viewable
+            // width.
+            //---------------------------------------------------------
+            const viewSize = getViewSize();
+    
+            // Icon width or height (same thing)
+            const iconSide = standardIconSize;
+
+            // gap ~= 6.25% is nice
+            const gap = Math.ceil( iconSide / 16 ); 
+
+            // Cell width or height w/ gap (same thing)
+            const cellSide = ( iconSide + gap );
+
+            // Fitting columns to visible width is the goal
+            // Floor so we see them fully in HZ space
+            const numCols = Math.floor( viewSize.width / cellSide  ) || 1;
+
+            // This is superfluous here, but why not? 🤓
+            /// Ceil so we include any partial row in count
+            const numRows = Math.ceil( numIcons / numCols ) || 1;
+    
+            // Save for later (nice for debugging!)
+            tileGridDetails = {
+                icons ,                 // Icons moved
+                viewSize ,              // Viewport Dimensions
+                gap,                    // Icon Spacing  
+                side    : cellSide,     // Length of Cell (W or H)
+                columns : numCols ,     // Column Count
+                rows    : numRows       // Row Count (possible partial bottom)
+            };
+
+            for ( let i = 0; i < numIcons; i++ ) {
+                const img = icons[ i ];
+                // Scale by cellSide so we count gaps
+                img.style.left = px( Math.floor( i % numCols ) * cellSide ); // Wrap columns
+                img.style.top  = px( Math.floor( i / numCols ) * cellSide ); // Bump rows
+            }
+
+            // Now present our work to the user (YAY!)
+            recenterCanvas();
+
+            // And for the dev...
+            console.log( "Total Icons Tiled : ", numIcons );
+        }
+      
+    </script> <script details="Canvas Size and Positioning">
+
+        function recenterCanvas() {
+            // Same as gid( 'viewport' )
+            const under = document.firstElementChild;
+            // Same as gid( 'canvas' )
+            const over = canvas;
+            overlayGadget( under, over );
+            translateY = translateX = 0;
+        }
+
+    </script> <script details="Key Classification">
+
+        // TODO : This should be in a separate module
+
+        function lowerCaseKey( key ) {
+            return ( "string" === typeof key ) ? key.toLowerCase() : "";
+        }
+
+        function isModifierKey( key ) {
+            key = lowerCaseKey( key );
+            return ( 
+                key === 'shift'   || 
+                key === 'control' || 
+                key === 'alt'     || 
+                key === 'meta' 
+            );
+        }
+
+        function isFunctionKey( key ) {
+            key = lowerCaseKey( key );
+            return ( 
+                key.startsWith( 'f' ) && 
+                !isNaN( parseInt( key.slice( 1 ) ) )
+            );
+        }
+
+        function isArrowKey( key ) {
+            key = lowerCaseKey( key );
+            return ( 
+                key === 'arrowup'   || 
+                key === 'arrowdown' || 
+                key === 'arrowleft' || 
+                key === 'arrowright'
+            );
+        }
+
+        function isNavigationKey( key ) {
+            key = lowerCaseKey( key );
+            return ( 
+                key === 'home'   || 
+                key === 'end'    || 
+                key === 'pageup' || 
+                key === 'pagedown'
+            );
+        }
+
+        function isEscapeKey( key ) {
+            key = lowerCaseKey( key );
+            return ( key === 'escape' );
+        }
+
+        function isEnterKey( key ) {
+            key = lowerCaseKey( key );
+            return ( key === 'enter' );
+        }
+
+        function isWhitespaceKey( key ) {
+            key = lowerCaseKey( key );
+            return ( key === ' '  || 
+                     key === 'tab' || 
+                     key === 'backspace' || 
+                     key === 'delete' );    
+        }
+
+    </script> <script details="Hot Key Registries">
+
+        // TODO : Extract this into a separate module (with key classification)
+        // TODO : Multiple registries for different contexts
+
+        // Icon View
+        const mainKeys = {};
+
+        // Edit View
+        const sipKeys = {};
+
+    </script> <script details="Hot Key Registry">
+
+        // Works w/ Register Reference (generic)
+        function makeKeyDef( key, purpose, modifier ) {
+            return {
+                key ,
+                purpose , 
+                modifier
+            };
+        }
+
+        // Works w/ Register Reference (generic)
+        function composeHotKeyTitle( keyDef ) {
+            if ( keyDef.modifier ) {
+                return `[${keyDef.modifier}] + [${keyDef.key}]`;
+            } else {
+                return `[${keyDef.key}]`;
+            }
+        }
+
+    </script> <script details="Check Registry for HotKey">
+
+        function isHotKey( title,  registry ) {
+            // const str = o = ( "string" === typeof o );
+            registry = registry || mainKeys;
+            return ( registry[ title ] !== undefined );
+        }
+
+    </script> <script details="Register a HotKey">
+
+        function registerHotKey( key, purpose, modifier, registry ) {
+            registry = registry || mainKeys;
+            if ( registry ) {
+                const keyDef = makeKeyDef( key, purpose, modifier );
+                const title = composeHotKeyTitle( keyDef );
+                if ( isHotKey( title, registry ) ) {
+                    console.warn( "Hot Key already registered: ", key );
+                    return;
+                } else {
+                    registry[ title ] = keyDef;
+                    console.log( "Registered Hot Key: ", keyDef );
+                    return keyDef;
+                }
+            } else {
+                console.error( "Hot Key Registry is not available." );  
+            }
+        }
+
+    </script> <script details="Examine HotKey Registry in Debug Console">
+
+        function examineHotKeys( registry ) {
+            // registry = registry || mainKeys;
+            console.group( "Hot Keys" );
+            console.table( 
+                createCoreTableForHotKeys( registry ) 
+            );
+            console.groupEnd();
+        }
+
+    </script> <script details="Register App-Specific Hot Keys">
+
+        function registerControlKeys() {
+            const reg = mainKeys;
+            const mod = "CTRL";
+            function add( k, v ) {
+                registerHotKey( k, v, mod, reg );
+            }
+            add( "F1" , "Show Help" );
+            add( "F2" , "Toggle Gold Aura" );
+            add( "F3" , "Toggle Origin Marker" );
+            add( "F4" , "Close App" );
+            add( "F5" , "Gather All Menus Into Viewport" );
+            add( "F6" , "Diagnostic Dump" );
+            add( "F7" , "Examine Hot Keys" );    
+            add( "F8" , "Examine Script Details" );
+            add( "F9" , "Save App State" );
+            add( "F10", "Toggle Editor View" );
+        }
+
+        function registerAltKeys() {
+            const reg = mainKeys;
+            const mod = "ALT";
+            function add( k, v ) {
+                registerHotKey( k, v, mod, reg );
+            }
+            add( "Scroll Lock", "Toggle Compass Lock" );
+            add( "Page Up"   , "Merge all Menus into One" );
+            add( "Page Down" , "Split all Dots into Menus" );
+            add( "Insert"    , "Insert Random Menu" );
+            add( "M", "Tile Icons and Recenter Canvas" );
+            add( "O", "Recenter Canvas at Origin" );
+            add( "S", "Save Icon as PNG or Dot Menu as HTML" );
+            add( "T", "Delete Icon or Dot Menu" );
+            add( "X", "Align Menu X" );
+            add( "Y", "Align Menu Y" );
+        }
+
+        // Register App-Specific Hot Keys
+        // Handled by onPageLoad
+        function registerAppHotKeys() {
+            registerControlKeys();
+            registerAltKeys();
+        }
+
+        function loadHotKeysIntoSIP() {
+            // We want the source code, so assign to sip.value
+            const sip = document.getElementById('sip');
+            const table = createHTMLTableForHotKeys();
+            const html = table.outerHTML;
+            sip.value = html;
+        }
+
+    </script> <script details="Create Core Table for HotKey Registry">
+
+        function createCoreTableForHotKeys( registry ) {
+            registry = registry || mainKeys;
+            const str  = o => ( "string" === typeof o ) ? o.trim() : "";
+            const safe = o => ( str( o ) || "⛔" );
+            const table = [
+                [  "Key", "Purpose" ]
+            ];
+            for ( const title in registry ) {
+                const purpose = safe( registry[ title ].purpose );
+                const entry = [ title, purpose ];
+                table.push( entry );
+            }
+            return table;
+        }
+
+    </script> <script details="Create HTML Table for HotKey Registry">
+
+        function createHTMLTableForHotKeys( registry ) {
+            registry = registry || mainKeys;
+            const str  = o => ( "string" === typeof o ) ? o.trim() : "";
+            const safe = o => ( str( o ) || "⛔" );
+            const headers = [  "Key", "Purpose" ];
+            const table = document.createElement( 'table' );
+            table.tHead = document.createElement( 'thead' );
+            // Tables can have multiple bodies, so this needs to be
+            // handled differently.
+            const tbody = document.createElement( 'tbody' ); 
+            table.appendChild( tbody );
+            headers.forEach( field => {
+                const th = document.createElement( 'th' );
+                th.textContent = field;
+                table.tHead.appendChild( th );  
+            } );
+            for ( let title in registry ) {
+                const purpose = safe( registry[ title ].purpose );
+                const entry = [ title, purpose ];
+                const tr = document.createElement( 'tr' );
+                for ( let value of entry ) {
+                    const td = document.createElement( 'td' );
+                    td.textContent = value;
+                    tr.appendChild( td );  
+                }
+                tbody.appendChild( tr );
+            }
+            return table;   
+        }
+
+    </script> <script details="Compose HTML Script Element">
+
+        // TODO: This is generic enough for a separate module
+        // Ugly HACK time: This lexer is a NIGHTMARE...
+        function composeScriptTag( url ) {
+            return [
+                '<' ,
+                'script src="' ,
+                url  ,
+                '">' , 
+                '</' , 
+                'script' , 
+                '>'
+            ].join( "" );
+        }
+
+    </script> <script details="Compose an HTML Document Wrapper">
+
+        // TODO: This is generic enough for a separate module
+        function composeDocWrapper( html ) {
+            const dynaload = "http://dave-omega/42/api/core/dynaload.js";
+            const script = composeScriptTag( dynaload );
+            const tikey = AppKeys.tikey;
+            const title = "Icon Snagger Hot Keys";
+            const when  = ( new Date().toLocaleDateString() );
+            return [
+                '<!DOCTYPE html>'
+        ,       '<html lang="en">'
+        ,       '<head>',
+        ,          '<meta charset="utf-8">'
+        ,          `<title>${title}</title>`
+        ,            script
+        ,       '</head>'
+        ,       '<body>'
+        ,           `<h1>${title}</h1>`
+        ,           `<p>TiKey : ${tikey}</p>`
+        ,           `<p>Generated on ${when}</p>`
+        ,              html
+        ,           '<hr>'
+        ,       '</body>'
+        ,       '</html>'
+            ].join( '\n' );
+        }
+
+    </script> <script details="Save Hotkey Table as HTML File">
+
+        // TODO: Use existing API code that saves text/json files:
+        //       rico() I think; or tizzy()
+        // TODO: Same for other File I/O functions
+        function saveHotKeyTable( filename = "hotkeys.html", registry ) {
+            registry = registry || mainKeys;
+            const table = createHTMLTableForHotKeys( registry );
+            filename = filename || "hotkeys.html";
+            filename = filename.endsWith( ".html" ) 
+                ? filename 
+                : ( `${filename}.html` );
+            const payload = composeDocWrapper( table.outerHTML );
+            // Everything from here down is duplicate code
+            const charset = 'utf-8';
+            const type = 'text/html';
+            const options = { type, charset };
+            const blob = new Blob( [ payload ], options );
+            const ae = document.createElement( 'a' );
+            ae.download = filename;
+            ae.href = URL.createObjectURL( blob );
+            ae.click();
+            URL.revokeObjectURL(ae.href );
+            // Except this
+            console.log( "Saved Hot Key Table:", filename );
+        }
+
+    </script> <script details="Create Dot Menu From Core Dot">
+
+        // Core Dots are Core Records (strings using "|" as separators)
+        // These are part of the Core Document format that I use a lot.
+        // The legends.js module has many features designed to work
+        // with Core Documents (and Core Records). As do many other modules
+        // that I designed.
+        // In the special case of Core Dots, the schema for a record is
+        // simple: Two fields: Decal and Title. These are contained in a
+        // single string with vertical bar ("|") separating them.
+        // The System 42 "dots" folder contains many files that redirect
+        // the browser to various URLs. They're essentially shortcuts
+        // stored as HTML files. This a core feature the "Dot Anchor"
+        // paradigm.
+        function createDotMenuFromCoreDot( coreDot ) {
+            if ( "string" !== typeof coreDot ) {
+                console.warn( "Core Dot argument must be a string" );
+                return;
+            }
+            const parts = _L_.slice( coreDot );
+            if (! parts.length ) { return; } // Empty strings ignored
+            let [ decal, title ] = [ ... parts ];
+            // Decals are optional. If omitted by the user, we
+            // supply a random decal that can be changed later.
+            if (! title ) {
+                title = decal;
+                decal = randomDecal();
+            }
+            const origin = location.origin;
+            const path   = "42/dots";
+            const file = [ "dot", title.toLowerCase(), "html" ].join( "." );
+            const url  = [ origin, path, file ].join( "/" );
+            const linkDef = { url, decal, title };
+            return createDotMenu( [ linkDef ] );            
+        }
+
+    </script> <script details="Control Key Events">
+
+        function controlKeyEvent( event ) {
+
+            // We detect modifiers with KeyEvent flags
+            // we can ignore the discrete key events for these
+            if ( isModifierKey( event.key ) ) { return false; }
+
+            // Keisha gets priority
+            if ( event.altKey   ) { return false; }
+
+            function handled() {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            // Alt gets priority over Ctrl, but Ctrl with any other modifier
+            // is handled here.
+            const key = event.key.toLowerCase();
+
+            // Now for the fun part...
+            // Another amazing Ⓢⓨⓢⓣⓔⓜ 𝟜𝟚 feature with "dots"...
+            if ( key === "." )  {
+                const coreDot = prompt( "Enter a Dot Name", "🤖 | Grok" );
+                if ( coreDot ) {
+                    createDotMenuFromCoreDot( coreDot );
+                    return handled();
+                }
+            }
+
+            // All that follows is a combo with CTRL
+            if (! event.ctrlKey ) { return false; }
+
+            if ( key == "f1") {
+                handled();
+                showHelp();
+                return true;
+            } else if ( key == "f2") {
+                handled();
+                canvas.classList.toggle('gold-aura');
+                return true;
+            } else if ( key == "f3") {
+                handled();
+                toggleOriginMarker();
+                return true;
+            } else if ( key == "f5") {
+                handled();
+                gatherAllMenusIntoViewport()
+                return true;
+            } else if ( key == "f6") {
+                handled();
+                diagnosticDump();
+                return true;
+            } else if ( key == "f7") {
+                handled();
+                examineHotKeys();
+                return true;
+            } else if ( key == "f8") {
+                handled();
+                examineScriptDetails();
+                return true;
+            } else if ( key == "f9") {
+                handled();
+                saveAppState();
+                alert( "Saved App State" );
+                return true;
+            } else if ( key == "f10" ) {
+                handled();
+                toggleViewMode();
+                return true;
+            }
+            return false;
+        }
+
+    </script> <script details="Keydown Event Handler">
+
+        // Nice fun anthropomorphic name for the event handler
+        function keisha( event ) {
+
+            // Ignore all key events while the editor is visible
+            if ( isEditView() ) { return; }
+
+            // Ignore modifier key events
+            if ( isModifierKey( event.key ) ) { return; }
+            
+            // Give control key events first chance
+            if ( controlKeyEvent( event ) ) return;            
+            
+            // Alt key events follow
+            if (! event.altKey ) return;
+
+            // Personal preference
+            // In my mind, uppercase implies SHIFT or CAPSLOCK,
+            // which is not necessarily true for KeyEvent properties
+            const key = event.key.toLowerCase();
+
+            // I accept the CPU overhead and code bloat when it keeps code
+            // in one place. Fix it once and it's fixed everywhere...
+            function handled() {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            // Hover isn't required for these events
+            if ( key === 'scrolllock' ) {   // ALT+SCRLCK: Toggle Compass
+                compassLocked = !compassLocked;
+                if ( compassLocked ) {
+                    showCompass( true );
+                } else {
+                    hideCompass();
+                }
+                return handled();
+            } else if ( key === 'o' ) {     // ALT+O: Recenter Canvas
+                recenterCanvas();
+                return handled();
+            } else if ( key === 'm' ) {     // ALT+M: Tile Icons
+                tileIcons();
+                return handled();
+            } 
+
+            // Events that only work when hovering over an icon
+            let hovered = selma( '.icon:hover' );
+            if ( hovered ) {
+                if ( key === 's' ) {        // ALT+S: Save Icon (PNG)
+                    shimmy = Math.random() < 0.5 
+                        ? 'shimmy-hz' 
+                        : 'shimmy-vt';
+                    hovered.classList.add( shimmy );
+                    saveAsPng( hovered );
+                    setTimeout( () => hovered.classList.remove(shimmy), 742 );
+                    return handled();
+                } else if ( key === 't' ) { // ALT+T: Remove Icon
+                    hovered.classList.add( 'shrink-fade' );
+                    setTimeout( () => hovered.remove(), 842 );
+                    return handled();
+                } else {
+                    console.log( "Key pressed during hover:", key );
+                }        
+            }
+
+            // Events that only work when hovering over a menu
+            hovered = selma( '.dots:hover' );
+            if ( hovered ) {
+                if ( key === 'pageup' ) {
+                    mergeMenus( hovered );  // ALT+PGUP : Merge Into Single Menu
+                    return handled();
+                } else if ( key === 'pagedown' ) {
+                    splitMenus();           // ALT+PGDN : Split Into Many Menus
+                    return handled();
+                } else if ( key === 'enter' ) {
+                    // ALT+ENTER: Open in new tab (another nice idea!)
+                    const url = hovered.getAttribute( 'href' );
+                    if ( url ) {
+                        openPopup( url );
+                        return handled();
+                    }
+                } else if ( key === 'insert' ) {  // ALT+INS: Add Random Menu
+                    addRandomMenu();
+                    return handled();
+                } else if ( key === 'g' ) {     // ALT+G: Gather Menus to Viewport
+                    gatherAllMenusIntoViewport();
+                    return handled();
+                } else if ( key === 's' ) {     // ALT+S: Save Menu (HTML)
+                    saveDotMenu( hovered );
+                    return handled();
+                } else if ( key === 't' ) {     // ALT+T: Remove Menu
+                    removeMenu( hovered );
+                    return handled();
+                } else if ( key ==='x' ) {      // ALT+X: Align / Space Menus Horizontally
+                    const column = event.shiftKey;
+                    alignMenusX( hovered, column );
+                    return handled();
+                } else if ( key ==='y' ) {      // ALT+Y: Align / Space Menus Vertically
+                    const row = event.shiftKey;
+                    alignMenusY( hovered, row );
+                    return handled();
+                }
+            }
+        }
+
+    </script> <script details="Overlay one Gadget Over Another">
+
+        // Overlay the gadget over the canvas
+        function overlayGadget( under, over ) {
+            const cs = over.style;
+            const underRect = under.getBoundingClientRect();
+            const left = underRect.left;
+            const top = underRect.top;
+            const width = underRect.width;
+            const height = underRect.height;
+            const pix = px;
+            cs.left = px(left);
+            cs.top = px(top);
+            cs.width = px(width);
+            cs.height = px(height);
+            cs.transform = NO_TRANSLATE;
+        }
+
+    </script> <script details="Create Persistent State for Dot Menus">
+
+        function createDotMenuStateDetails() {
+            const state = {
+                menuDots    : [],
+                menuCorners : [],
+                tikey : TiGG() // Each state data instance is unique in time
+            };
+            const menus = thelma( '.dots' );
+            menus.forEach( menu => {
+                const dots = menu.querySelectorAll( '.dot' );
+                const corners = getGadgetTopLeftCorner( menu );
+                const linkDefs = Array.from( dots ).map( a => {
+                    const obj = {};
+                    obj.url   = a.href;
+                    obj.decal = a.textContent;
+                    obj.title = a.title;
+                    obj.tikey = ( a.getAttribute( 'tikey' ) || "⛔" )
+                    return obj;
+                } );
+                state.menuDots.push( linkDefs );
+                state.menuCorners.push( corners );
+            });
+            return state; 
+        }
+
+    </script> <script details="Downloads to File System">
+
+        // Save icon as PNG
+        function saveAsPng(img) {
+            const when = Date.now();
+            const link = document.createElement( 'a' );
+            link.download = ( "icon-" + when + ".png" );
+            link.href = img.src;
+            link.click();
+        }
+
+        function saveDotMenu( gadget ) {
+            const state = createDotMenuStateDetails();
+            const payload = JSON.stringify( state );
+            const type = 'application/json';
+            const charset = 'utf-8';
+            const options = { type, charset };
+            const blob = new Blob( [ payload ], options );
+            const tikey = state.tikey;
+            const ae = document.createElement( 'a' );
+            ae.download = "dot-menu-" + tikey + ".json";
+            ae.href = URL.createObjectURL( blob );
+            ae.click();
+            URL.revokeObjectURL( ae.href );
+            console.log( "Saved dot menu: ", state );
+        }
+
+    </script> <script details="Center Gadget Within Canvas">
+
+        function centerGadgetWithinCanvas( gadget ) {
+            const center = getCanvasCenter( true );
+            const gadgetRect = gadget.getBoundingClientRect();
+            const x = center.x - (gadgetRect.width  / 2);
+            const y = center.y - (gadgetRect.height / 2); 
+            const ds = gadget.style;
+            ds.left = px( x );
+            ds.top  = px( y );  
+        }
+
+    </script> <script details="Gather All Menus Into Viewport">
+
+        function gatherAllMenusIntoViewport() {
+            const rect = viewport.getBoundingClientRect();
+            const menus = thelma( '.dots' );
+            menus.forEach( menu => {
+                keepGadgetInsideRect( rect, menu );
+            } );
+        }
+
+    </script> <script details="Keep Gadget Inside Viewport">
+
+        function keepGadgetInsideViewport( gadget ) {
+            const rect = viewport.getBoundingClientRect();
+            keepGadgetInsideRect( rect, gadget );
+        }
+
+    </script> <script details="Keep Gadget Inside Canvas">
+
+        function keepGadgetInsideCanvas( gadget ) {
+            const rect = canvas.getBoundingClientRect();
+            rect.left -= translateX;
+            rect.top  -= translateY;
+            keepGadgetInsideRect( rect, gadget );
+        }
+
+    </script> <script details="Keep Gadget Inside Rectangle">
+
+        function keepGadgetInsideRect( rect, gadget ) {
+            const gadgetRect = gadget.getBoundingClientRect();
+            const x = Math.max( rect.left, Math.min( gadgetRect.left, rect.right - gadgetRect.width ) );
+            const y = Math.max( rect.top, Math.min( gadgetRect.top, rect.bottom - gadgetRect.height ) );
+            const ds = gadget.style;
+            ds.left = px( x );
+            ds.top  = px( y );  
+        }
+
+    </script> <script details="Gadget Metrics">
+
+        // TODO ... extract this into a separate module
+
+        function getGadgetRect( gadget ) {
+            const scale = getMenuScale();
+            const cs = getComputedStyle( gadget );
+            const bounding = gadget.getBoundingClientRect(); // Full Size
+            const computed = {
+                x : cs.left  ,
+                y : cs.top   ,
+                w : cs.width ,
+                h : cs.height
+            };
+            return { bounding, computed, scale };
+        }
+
+        function getGadgetSize( gadget ) {
+            const rect = gadget.getBoundingClientRect(); // Full Size
+            const cs = getComputedStyle( gadget );
+            const computed = {
+                w : cs.width,
+                h : cs.height
+            };
+            return { width: rect.width, height: rect.height, computed };
+        }
+
+        function getGadgetTopLeftCorner( gadget ) {
+            const rect = gadget.getBoundingClientRect();
+            const x = rect.left;
+            const y = rect.top;
+            const cs = getComputedStyle( gadget );
+            const computed = {
+                x : cs.left ,
+                y : cs.top
+            };
+            return { x, y, computed };
+        }
+
+        function getGadgetCenter( gadget, relative = false ) {
+            const rect = gadget.getBoundingClientRect();
+            const cs = getComputedStyle( gadget );
+            let x, y, computed;
+            if ( relative ) {
+                x = (rect.width  / 2);
+                y = (rect.height / 2);
+                computed = {
+                    x : ( cs.width  / 2 ) ,
+                    y : ( cs.height / 2 )
+                }
+            } else {
+                x = (rect.left + (rect.width  / 2) );
+                y = (rect.top  + (rect.height / 2) );
+                computed = {
+                    x : ( cs.left + ( cs.width  / 2 ) ) ,
+                    y : ( cs.top  + ( cs.height / 2 ) )
+                }
+            }
+            return { x, y };
+        }
+
+        // Random view position -- within visible
+        // screen space. This is for new menus only.
+        // Otherwise, we would use canvas space.
+        function randomGadgetPosition( gadget ) {
+            const size = getGadgetSize( gadget );
+            const full = standardIconSize;
+            const half = full * 0.5;
+            const x = half + Math.random() * ( size.width  - full );
+            const y = half + Math.random() * ( size.height - full );
+            return { x, y };
+        }
+
+    </script> <script details="Canvas Metrics">
+
+        function getCanvasSize() {
+            return getGadgetSize( canvas );
+        }
+        
+        function getCanvasTopLeftCorner() {
+            return getGadgetTopLeftCorner( canvas );
+        }
+
+        function getCanvasCenter( relative = false ) {
+            return getGadgetCenter( canvas, relative );
+        }
+
+        function randomCanvasPosition() {
+            return randomGadgetPosition( canvas );
+        }
+
+    </script> <script details="Viewport Metrics">
+
+        function getViewSize() {
+            return getGadgetSize( viewport );
+        }
+
+        function getViewTopLeftCorner() {
+            return getGadgetTopLeftCorner( viewport );
+        }
+
+        function getViewCenter( relative = false ) {
+            return getGadgetCenter( viewport, relative );
+        }
+
+        function randomViewPosition() {
+            return randomGadgetPosition( viewport );
+        }
+
+    </script> <script details="Set Gadget Center">
+
+        function setGadgetCenter( gadget, point ) {
+            const size = getGadgetSize( gadget );
+            let x = point.x - (size.width / 2);
+            let y = point.y - (size.height / 2);
+            const ds = gadget.style;
+            ds.left = px( x );
+            ds.top  = px( y );
+            keepGadgetInsideViewport( gadget );
+        }
+
+    </script> <script details="Align Menus Horizontally">
+
+        function getScaledMenuSpan() {
+            return parseFloat( readRootValue( "--menu-size" ) ) * 1.1;
+        }
+
+        // I'm assuming that nowhere will any units besides pixels
+        // be used for coordinates or sizes in this app.
+        // Otherwise my casting will cause issues.
+
+        function alignMenusX( x, column ) {
+            let y = 10, dy = getScaledMenuSpan();
+            if ( column === true ) {
+                x = y;
+            } else if ( isMenuGadget( x ) ) {
+                // Use x as a reference gadget
+                const gs = getComputedStyle( x );
+                x = gs.left;
+            }
+            x = px( parseFloat( x ) );
+            const menus = thelma( '.dots' );
+            menus.forEach( menu => {
+                menu.style.left = x;
+                menu.style.top = px( y );
+                y += dy;
+            } );
+        }
+
+    </script> <script details="Align Menus Vertically">
+
+        function tileMenus() {
+            let x = 10, dx = getScaledMenuSpan();
+            let y = 10, dy = dx;
+
+        }
+
+    </script> <script details="Align Menus Vertically">
+
+        function alignMenusY( y, row ) {
+            let x = 10, dx = getScaledMenuSpan();
+            if ( row === true ) {
+                y = x;
+            } else if ( isMenuGadget( y ) ) {
+                // Use y as a reference gadget
+                const gs = getComputedStyle( y );
+                y = gs.top;
+            }
+            y = px( parseFloat( y ) );
+            const menus = thelma( '.dots' );
+            menus.forEach( menu => {
+                menu.style.top = y;
+                menu.style.left = px( x );
+                x += dx;
+            } );
+        }
+
+    </script> <script details="Move Gadget Relative Distance">
+
+        // TODO: This is still not working for small scales.
+        // getBoundingClientRect() returns the unscaled size
+        // whereas getComputedStyle() accounts for scaling.
+        // We need to use both smartly to figure out how to
+        // intuitively respond to relative position changes
+        // when the gadget is not scale to exactly 100%.
+        function moveGadgetRelative( gadget, dx, dy ) {
+            const cs = getComputedStyle( gadget );
+            const x = parseFloat( cs.left   );
+            const y = parseFloat( cs.top    );
+            const gs = gadget.style;
+            gs.left = px( x + dx );
+            gs.top  = px( y + dy );
+        }
+
+    </script> <script details="Drop Gadget at Client Point">
+
+        // This is for Icons. Dot Menus use random positions.
+        // CORRECTION: This is not currently being used at all...
+        function dropGadgetAtClientPoint( event ) {
+            event.preventDefault();
+            event.stopPropagation();
+            const gadget = event.target
+            const x = event.clientX;
+            const y = event.clientY;
+            const ds = gadget.style;
+            ds.left = px( x );
+            ds.top  = px( y );
+            keepGadgetInsideViewport( event.target );
+        }
+
+    </script> <script details="Pending">
+
+        /* 
+            The concept of Dot Menus and Dot Anchors / Buttons is
+            a common theme in my apps. In fact, we should be using
+            NAV as a container for A and MENU for BUTTON dots.
+            That's a later fix, though.
+
+            The concept involves groups of dots, but we're creating
+            a new menu (container on a per-dot basis).
+
+            We need now a function that can merge all dots into one
+            container, consolidating the dot anchors into a single
+
+        */
+
+    </script> <script details="Gadget Type Checking">
+
+        function isMenuGadget( gadget ) {
+            // This could be NAV or MENU (in the future)
+            if (! ( gadget instanceof HTMLElement ) ) {
+                return false;
+            }
+            // This could be DOTS or BALLOONS (in the future)
+            return gadget.classList.contains( 'dots' );
+        }
+
+        function isDotGadget( gadget ) {
+            // This could be A or BUTTON (in the future)
+            if (! ( gadget instanceof HTMLElement ) ) {
+                return false;
+            }
+            // This could be DOT or BALLOON (in the future)
+            return gadget.classList.contains( 'dot' );
+        }
+
+    </script> <script details="Menu and Dot Exceptions">
+
+        function throwNotDot() {
+            throw new TypeError( "Expected a dot gadget" );
+        }
+
+        function throwNotMenu() {
+            throw new TypeError( "Expected a dot container gadget" );
+        }
+
+        function throwMenuNotEmpty() {
+            throw new Error( "Can't remove Menu unless it's empty" );
+        }
+
+    </script> <script details="Remove a Menu">
+
+        function removeMenu( menu ) {
+            try {
+                if (! isMenuGadget( menu ) ) {
+                    throwNotMenu();
+                }
+                menu.classList.add( 'shrink-fade' );
+                setTimeout( () => {
+                    menu.remove();
+                }, 842 );
+            } catch ( error ) {
+                console.error( error );
+                alert( error );
+            }
+        }
+
+    </script> <script details="Create a Random Menu">
+
+        function addRandomMenu() {
+            const decal = "🎲";
+            const url   = "./";
+            return createDotMenu( [ { decal, url } ] );
+        }
+
+    </script> <script details="Create a Menu from a Dot">
+
+        function createMenuFromDot( gadget ) {
+            // const linkDefs = [ getLinkDefFromDot( gadget ) ];
+            const dots = createDotMenu();
+            dots.appendChild( gadget );
+            return dots;
+        }
+
+    </script> <script details="Give Each Dot a Menu of Its Own">
+
+        function splitMenus() {            
+            const dots = thelma( ".dot" );
+            let dotCount  = 0;
+            let menuCount = 0;
+            function isolate( gadget ) { 
+                const parent = gadget.parentElement;
+                if ( parent ) {
+                    dotCount += 1;
+                    parent.removeChild( gadget ); 
+                    if ( parent.firstElementChild ) {
+                        return;
+                    }
+                    menuCount += 1;
+                    removeMenu( parent );
+                }
+            }
+            dots.forEach( isolate );
+            dots.forEach( createMenuFromDot );
+            console.log( "Removed:", { dotCount, menuCount }  )
+        }
+
+    </script> <script details="Merge Dots into a Single Menu">
+
+        function mergeMenus( menuGadget ) {
+            // We will probably use this with NAV elements too
+            if (! isMenuGadget( menuGadget ) ) {
+                throwNotMenu();
+            }
+            // TODO... some containers use BALLOONS instead of DOTS, so
+            // this is a future check. Generally, if it's round (a single decal),
+            // it's a DOT. If it contains more text, so it's a rounded-rectangle,
+            // it's a BALLOON and the container has class BALLOONS.
+            // Caps used for emphasis (class names are lowercase).
+            function transfer( dot ) {
+                const parent = dot.parentElement;
+                if ( parent ) { // Yes, redundant. Bear with an old guy! 😉😂
+                    parent.removeChild( dot );
+                }
+                menuGadget.appendChild( dot );
+            }
+            function merge( menu ) {
+                // Yeah. No need to merge with self, eh?
+                if ( menu === menuGadget ) return;
+                // We may use buttons too...
+                const dots = Array.from( menu.querySelectorAll( '.dot' ) );
+                dots.forEach( transfer );
+                // Here we can set shrink-fade and a one-shot to remove
+                // the menu after a timeout.
+                // 🤩 Lovely !!!
+                removeMenu( menu );
+            }
+            // May use MENU or NAV containers
+            const menus = thelma( '.dots' ); // Future: ".balloons" as well
+            menus.forEach( merge );
+            // Now that we have one big menu (possibly), we need to
+            // gather to viewport.
+            gatherAllMenusIntoViewport();
+            // Menus are now all empty (except menuGadget)
+            // so no need to tell the dev!
+            console.log( "Merged All Dots ",  { menuGadget } );
+        }
+
+    </script> <script details="Dot Gadget Configuration">
+
+        // Initialize a New Dot Anchor Gadget
+        function dottify( gadget ) {
+            gadget.setAttribute( 'draggable', 'false' );
+            gadget.setAttribute( 'dot', gadget.textContent );
+            gadget.classList.add( 'dot' );
+            const decal = gadget.textContent;
+            const tikey = gadget.getAttribute( 'tikey' );
+            console.log( "Dottified: ", { decal, tikey } );
+            return gadget;
+        }
+
+        // Initialize a New Dot Menu Gadget
+        function menufy( gadget ) {
+            gadget.setAttribute( 'draggable', 'true' );
+            gadget.setAttribute( 'dots', '🔘' );
+            gadget.classList.add( 'dots' );
+            const pt = randomViewPosition();
+            const ds = gadget.style;
+            ds.left = px( pt.x );
+            ds.top  = px( pt.y );
+            let start = { x : 0, y: 0 };
+            gadget.addEventListener( 'dragstart', (e) => {
+                isDraggingMenu = true;
+                start.x = e.clientX;
+                start.y = e.clientY;
+                e.stopPropagation();
+            });
+            gadget.addEventListener( 'dragend', (e) => {
+                isDraggingMenu = false;
+                let dx = e.clientX - start.x;
+                let dy = e.clientY - start.y;
+                // TODO: Deal with scaled moves
+                moveGadgetRelative( gadget, dx, dy );
+                // keepGadgetInsideViewport( gadget );
+            });
+            return gadget;
+        }
+
+    </script> <script details="Create Menu (Dot Container)">
+
+        function createDotMenu( linkDefs ) {
+            const dots = ella( 'menu' );
+            const obj = o => ( o instanceof Object );
+            const str = o => ( "string" === typeof o );
+            document.body.appendChild( dots );
+            menufy( dots );
+            // Empty is okay. Some functions need this to do
+            // their own init.
+            if (! linkDefs ) { return dots; }
+            linkDefs = Array.from( linkDefs );
+            linkDefs.forEach( linkDef => {
+                let ae;
+                if ( obj( linkDef ) ) {
+                    ae = createDotAnchor( linkDef );
+                } else if ( str( linkDef ) ) {
+                    linkDef = { url: linkDef };
+                    ae = createDotAnchor( linkDef );
+                } else {
+                    console.log( "Invalid linkDef: ", linkDef );
+                    return;
+                }
+                if ( ae ) {  dots.appendChild( ae ); }
+            });
+            return dots; 
+        }
+
+    </script> <script details="Create Dot Anchor">
+
+        function createDotAnchor( linkDef ) {
+            const obj = o => ( o instanceof Object);
+            const str = o => ( "string" === typeof o );
+            let url = "", decal = "", title = "", tikey, target;
+            if ( obj( linkDef ) )  {
+                url    = ( linkDef.url    || defaultDropURL );
+                decal  = ( linkDef.decal  || randomDecal() );
+                tikey  = ( linkDef.tikey  || TiGG() );
+                title  = ( linkDef.title  || url );
+                target = ( linkDef.target || "_blank" );
+            } else if ( str( linkDef ) ) {
+                title  = url = ( linkDef || defaultDropURL );
+                decal  = randomDecal();
+                tikey  = TiGG();
+                target = "_blank";
+            } else {
+                console.log( "Invalid linkDef: ", linkDef );
+                return;
+            }
+            const ae = ella( 'a' );
+            ae.href = ae.title = url;
+            ae.target = target;
+            ae.textContent = firstDecal( decal );
+            ae.title = title;
+            ae.setAttribute( 'tikey', tikey ); 
+            return dottify( ae );
+        }
+
+    </script> <script details="Create LinkDef from Dot">
+
+        // TODO: Find duplicate code and have it call this
+        // __official__ function instead. 
+        // Especially the peristence functions.
+        // One location means one fix for all, right?
+        function getLinkDefFromDot( gadget ) {
+            if (! isDotGadget( gadget ) ) {
+                throwNotDot();
+            }
+            const ae = gadget;
+            const url    = ae.href   ||  defaultDropURL;
+            const target = ae.target || '_blank';
+            const title  = ae.getAttribute( 'title') || url; 
+            const tikey  = ae.getAttribute( 'tikey') || TiGG(); 
+            const decal  = firstDecal( ae.innerText.trim() ) || randomDecal();
+            return {
+                url, target,
+                title, tikey,
+                decal
+            };  
+        }
+
+    </script> <script details="Decal Helpers">
+
+        // TODO : Reduce this to just a few hard-coded and
+        // augment with a JSON file.
+        // FUTURE PLANS: MySQL Database with "official" registry
+        // of contextually meaningful decals.
+        // HINT: This explains the tikeys, eh? :)
+        function randomDecal() {
+            const decals = [
+'📝', '📃', '📜', '📄', '📎', '📌', '📍', '📏', '📐', 
+'✂️', '🔗', '🔍', '🖊️', '🖋️', '🖌️', '🖍️', '✏️', '✒️',
+'🕸️', '🐕', '🐈', '🦉', '🌐', '🧭', '🏖️', '🏟️', '🎡', 
+'🎪', '🧳', '🛸', '🚀', '🛰️', '⚓',  '🪂', '🛬', '🛫', 
+'🛩️', '✈️', '🌖', '🌠', '🌞', '⛱️', '⚡',  '🔥', '🌊', 
+'✨', '🪄', '🧸', '🪅', '🪩', '🖼️', '🔮', '👔', '🎩', 
+'👑', '🖥️', '💻', '📗', '📚', '📦', '🗳️', '⛓️', '🪝'
+            ];
+            const index = Math.floor( Math.random() * decals.length );
+            return decals[ index ];   
+        }
+
+        // We want just one Unicode character (utf-8), so some combos
+        // will magically change on the user. Can't be helped if we're
+        // to prevent more than one visible "glyph"; those multiples 
+        // distort the shape of "dot" gadgets. That's what "balloons"
+        // are for... :D
+        // Example: Yogi '🐻‍❄️' becomes "younger" self '🐻'.
+        // This messes with the gender combos too. Guys/gals loose
+        // the gender specifiers '♂' and '♀', ethnicities (etc).
+        function firstDecal( s ) {
+            const cp = s.codePointAt( 0 );
+            return String.fromCodePoint( cp );
+        }
+
+    </script> <script details="Show All Dots in a New Browser Tab">
+
+        function composeNavBarHTML() {
+            const dotCache = [ '<nav dots="🔘" class="dots">' ];
+            const dots = thelma( '.dot' );
+            function newDot( a ) {
+                const elem = document.createElement( 'a' );
+                elem.innerText = a.textContent;
+                elem.href = a.href;
+                elem.target = '_blank';
+                elem.classList.add( 'dot' );
+                elem.setAttribute( 'dot', a.getAttribute( 'dot' ) );
+                elem.setAttribute( 'tikey', a.getAttribute( 'tikey' ) );
+                elem.title = a.title;
+                dotCache.push( elem.outerHTML );
+            }
+            dots.forEach( newDot );
+            dotCache.push( "</nav>\n" );
+            return dotCache.join( "\n" );
+        }
+
+        function composeSOPEditorHTML() {
+            const script = composeDynaLoadScript();
+            const doc = [
+                  "<!DOCTYPE html><html lang='en'><head>" 
+                , "<meta charset='utf-8'>"
+                , "<title>Preview Dots</title>" 
+                ,  script
+                , "<style>"
+                , '@import url("http://dave-omega/42/style/personal.css");'
+                , "</style>"
+                , "</head>"
+                , "<body>"
+                , '<textarea wrap="off" rows="42" id="sop">'
+                , '</textarea>'
+                , "</body>"
+                , "</html>"
+            ];
+            return doc.join( "\n" );
+        }
+
+        // This is about capturing the HTML, not seeing the actual
+        // gadget. We can do that here in this app!
+        function previewMenuHTML( useSIP ) {
+            let title = "Dot NavBar";
+            // We could have a seperate function for this.
+            // Probably should, if fact.
+            if ( useSIP ) {
+
+            } else {
+                let wnd = openPopup( "", title );
+                if (! wnd ) {
+                    wnd = window.open( "", title )
+                };  
+                const doc = wnd.document;
+                doc.open();
+                doc.writeln( composeSOPEditorHTML() );
+                doc.close();
+                wnd.focus();
+                const sop = doc.getElementById( 'sop' );
+                sop.value = composeNavBarHTML();
+                sop.focus();
+            }
+        }
+
+    </script> <script details="Popups to Change Dot Properties">
+
+        // TODO: These should be a single HTML dialog element, not prompts.
+        // The dialog can configure all properties of the dot, including
+        // the URL, decal, and title. This should be a modal dialog that
+        // allows the user to change the properties of the dot. The dialog
+        // should be draggable and resizable, and should have a close button.
+        // It should also preserve state, so undo/redo is possible.        
+
+        function changeDotURL( gadget ) {
+            const newURL = prompt( "🔗 Enter new URL:", gadget.href );
+            if ( newURL ) {
+                gadget.href = newURL;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            return true;
+        }
+
+        function changeDotTitle( gadget ) {
+            const newTitle = prompt( "🎩 Enter new Title:", gadget.title );
+            if ( newTitle ) {
+                gadget.title = newTitle;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            return true;
+        }
+
+        function changeDotDecal( gadget ) {
+            const newDecal = prompt( "🎭 Enter new Decal:", gadget.textContent );
+            if ( newDecal ) {
+                gadget.textContent = newDecal;
+                gadget.setAttribute( 'dot', newDecal );
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            return true;
+        }
+
+    </script> <script details="Dot Button Mouse Event Handler">
+
+        /*
+            This is called by onMouseDown to get first crack
+            at handling mouse down events.
+            Should return true if the event is handled, else false. 
+        */
+        function dotButtonMouseEvent( event ) {
+            if ( event.button === 2 ) { // right-click
+                const target = event.target;
+                const cl = target.classList;
+                if ( cl.contains( 'dot' ) ) {
+                    if ( event.ctrlKey ) {
+                        if ( event.altKey ) {
+                            return changeDotURL( target );
+                        } else {
+                            return changeDotTitle( target );                            
+                        }
+                    } else {
+                        return changeDotDecal( target );
+                    }
+                } else if ( cl.contains( 'dots' ) ) {
+                    if ( event.altKey ) {
+                        previewMenuHTML();
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return true;
+                    }
+                }
+            } else if (
+                event.ctrlKey && event.shiftKey
+            ) {
+                requestFullScreen( viewport )
+                event.preventDefault();
+                return true;
+            }
+            return false;
+        }
+
+    </script> <script details="Full Screen Request">
+
+        function requestFullScreen( element ) {
+            if ( element.requestFullscreen ) {
+                /* Mozilla */
+                element.requestFullscreen();
+            } else if ( element.webkitRequestFullscreen ) {
+                /* Safari */
+                element.webkitRequestFullscreen();
+            } else if ( element.msRequestFullscreen ) {
+                /* IE/Edge */
+                element.msRequestFullscreen();
+            }
+        }
+
+    </script> <script details="Popups">
+
+        // May customize this later...
+        const POPUP_OPTIONS = "left=42,top=42,width=800,height=600";
+
+        function openPopup( url, title ) {
+            const target = url || "_blank";
+            const popup = window.open( url, target, POPUP_OPTIONS );
+            if ( popup ) {
+                if ( title ) {
+                    popup.document.title = title;
+                }
+                popup.focus();
+                return popup;
+            } else {
+                alert( '🧝 Please allow popups for this website' );
+                return null;
+            }
+        }
+
+        // For compatibility with older code
+        let showPopup = openPopup;
+
+    </script> <script details="Attach Event Handlers">
+
+        function attachEventHandlers() {
+            // Alt key for hotkeys (main)
+            // Editor Hotkey Event Listener is Added by initEditor()
+            document.addEventListener( 'keydown', keisha );
+            // Handled later
+            // window.addEventListener( 'load', loadAppState );
+            window.addEventListener( 'beforeunload', saveAppState );
+            // Context menu suppression for right-click
+            viewport.addEventListener( 'contextmenu', (e) => e.preventDefault() );
+            // Mouse Event Handlers
+            viewport.addEventListener( 'dblclick', onDoubleClick );
+            viewport.addEventListener( 'mousedown', onMouseDown );
+            viewport.addEventListener( 'mousemove', onMouseMove );
+            viewport.addEventListener( 'mouseup', onMouseUp );
+            viewport.addEventListener( 'dragover', onDragOver );
+            viewport.addEventListener( 'drop', onDragDrop );
+        }
+
+    </script> <script details="Page Load Event">
+
+        function onPageLoad( event ) {
+            loadAppState();
+            attachEventHandlers();
+            // recenterCanvas();
+            // Done by loadAppState
+            // makeIconsDraggable();
+            gatherAllMenusIntoViewport();
+            initEditor();
+            hideCompass();
+            registerAppHotKeys();
+            showAppDateAndVersion()
+        }
+
+        function showAppDateAndVersion() {
+            const footer = selma( 'footer' );
+            const se = ella( 'span');
+            se.innerText = AppState.tidate + " ~ v" + AppState.version; 
+            se.style.marginLeft = "21px";
+            se.style.fontSize = "inherit";
+            footer.appendChild( se );
+        }
+
+        window.addEventListener( 'load', () => {
+            try { 
+                onPageLoad();
+            } catch ( error ) {
+                console.error( "Error loading page: ", error );
+                alert( "Error loading page: " + error );
+            }
+        });
+       
+    </script> <script details="Show Help Page">
+
+        // Show help page
+        function showHelp() {
+            const origin = "./help";
+            const url = `${origin}/manual.html`;
+            openPopup( url );
+        }
+
+    </script> <script details="Floating Fieldset">
+
+        /* 
+            This is currently unused.
+            See: BrowserWindow comments (below).
+        */
+
+        class GadgetWindow {
+            constructor( id, title ) {
+                this.state = {};
+                let fse;
+                if ( id instanceof HTMLFieldSetElement ) {
+                    fse = id;    
+                    fse.id = this.safeID( fse.id );
+                    this.state.gadget = fse;
+                    this.title = ( title || this.title || "Untitled" );
+                    return;
+                } else { 
+                    id = this.safeID( id );
+                    fse = selma( `fieldset#${id}` );
+                    if ( fse ) {
+                        this.state.gadget = fse;
+                        this.title = ( title || this.title || "Untitled" );
+                        return;
+                    }
+                }
+                fse = ella( 'fieldset' );
+                fse.id = this.safeID( id );
+                fse.classList.add( "layer4" );
+                fse.classList.add( "floating" );
+                let lge = ella( 'legend' );
+                fse.appendChild( lge );
+                let ipe = ella( 'input' );
+                lge.appendChild( ipe );
+                ipe.value = ( title || "Untitled" );
+                ipe.setAttribute( "placeholder", "title" )
+                let bte = ella( 'button');
+                lge.appendChild( bte );
+                bte.classList.add( "close-button");
+                bte.textContent = "❌";
+                bte.addEventListener( 'click', () => { 
+                    document.body.removeChild( fse );
+                } );
+                let dve = ella( 'div');
+                dve.classList.add( 'content' );
+                dve.style.textAlign = "center";
+                fse.appendChild( dve );
+                let logo = ella( 'img' );
+                dve.appendChild( logo );
+                logo.src = "./fave.ico";
+                logo.setAttribute( "draggable", "false" );
+                this.state.gadget = fse;
+                this.initDragDrop();
+                document.body.appendChild( fse );
+            }
+            initDragDrop() {
+                const me = this;
+                const content = me.content;
+                let sx = 0;
+                let sy = 0;
+                let cx = 0;
+                let cy = 0;
+                let dragGadget;
+                function handled( e ) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                function onDragStart( e ) {
+                    dragGadget = me.fieldset;
+                    sx = e.clientX;
+                    sy = e.clientY;
+                    // e.stopPropagation();
+                }
+                function onDragEnd( e ) {
+                    cx = e.clientX;
+                    cy = e.clientY;
+                    let dx = ( cx - sx );
+                    let dy = ( cy - sy );
+                    moveGadgetRelative( dragGadget, dx, dy );
+                    dragGadget = null;
+                    e.stopPropagation();
+                }
+                function onTwoStep( e ) {
+                    requestFullScreen( content );
+                    handled();
+                }
+                let fse = this.fieldset;
+                fse.setAttribute( "draggable", "true" );
+                fse.addEventListener( 'dragstart', onDragStart );
+                fse.addEventListener( 'dragend'  , onDragEnd   );
+                fse.addEventListener( 'dblclick' , onTwoStep   );
+            }
+            get fieldset() {
+                return this.state.gadget;
+            }
+            get id () {
+                return this.fieldset.id;
+            }
+            get legend() {
+                return this.fieldset.querySelector( 'legend' );
+            }
+            get input() {
+                return this.legend.querySelector( 'input' );
+            }
+            get content() {
+                return this.fieldset.querySelector( '.content' );
+            }
+            get contentHTML() {
+                return this.content.innerHTML;
+            }
+            set contentHTML( html ) {
+                this.content.innerHTML = html;
+            }
+            get title() {
+                return this.input.value.trim();
+            }
+            set title( s ) {
+                if ( s === "⭕⭕⭕" ) return; // Override
+                s = this.safeString( s ) || "Untitled";
+                this.input.value = s;
+            }
+            isString( o ) {
+                return ( "string" === typeof o );
+            }
+            safeString( o ) {
+                return this.isString( o )
+                    ? o.trim()
+                    : "";
+            }
+            safeID( o ) {
+                return ( this.safeString( o ) || ( "id-" + TiGG() ) );
+            }
+            clearContentHTML() {
+                this.contentHTML = "";
+            }
+        }
+
+    </script> <script details="Floating Fieldset w/ Browser Frame">
+
+        /* 
+            This is currently unused. I had plans to make draggable
+            floating windows. One use-case is an embedded browser.
+            This idea was never finished.
+        */
+
+        class BrowserWindow extends GadgetWindow {
+            constructor( id, title, url ) {
+                super( id, "⭕⭕⭕" ); // Donuts force title to remain unset
+                this.initBrowser( url );
+                this.title = title; // Now title should be safe to update
+            }
+            get isBrowser() {
+                return (!! this.browser );
+            }
+            get browser() {
+                return this.content.querySelector( 'iframe');
+            }
+            // Override
+            get title() {
+                return this.state.title || "Untitled";
+            }
+            // Override
+            set title( o ) {
+                o = this.safeStr( o ) || "Untitled";
+                this.state.title = o;
+            }
+            get url() {
+                return this.browser.src;
+            }
+            set url( o ) {
+                this.browser.src = this.safeURL( o );
+            }
+            safeURL( o ) {
+                return this.safeString( o ) || "./";
+            }
+            initBrowser( url ) {
+                if ( this.isBrowser ) {
+                    this.url = url || this.url;
+                    return;
+                }
+                this.clearContentHTML();
+                const bre = ella( 'iframe' );
+                this.content.appendChild( bre );
+                // Show URL change in input gadget
+                bre.addEventListener( 'load', (e) => {
+                    // Avoid update when input gadget caused the navigation
+                    if ( this.navigating ) return;
+                    this.input.value = e.target.src;
+                } );
+                this.input.addEventListener( 'change', () => { 
+                    // Signal that input gadget is causing navigation
+                    this.navigating = true;
+                    // Send url to the iframe gadget
+                    this.url = this.input.value.trim();
+                    // Signal safe to update input gadget if url changes
+                    // by some other means
+                    this.navigating = false;
+                } );
+                // Initial navigation
+                this.url = url;
+            }
+        }
+
+    </script> <script details="Toggle Dot Visibility">
+        
+        let menusVisible = true;
+        function toggleMenuVisibility() {
+            menusVisible = !menusVisible;
+            const value = menusVisible ? "block" : "none";
+            writeRootValue( "--menu-display" , value );            
+        }
+
+    </script> <script details="Debugging Diagnostics">
+
+        // Dump scripts with details attribute
+        // TODO ... assign a hotkey to this
+        function examineScriptDetails( useEditor ) {
+            if ( useEditor ) {
+                const scripts = thelma( 'script[details]' );
+                const list = [];
+                const sip = gid( 'sip' );
+                scripts.forEach( script => {
+                    const details = script.getAttribute('details');
+                    list.push( `Ⓜ️ ${details}` ); // Ⓜ️ for Module (API)
+                } );
+                const styles = thelma( 'style[details]' );
+                styles.forEach( style => {
+                    const details = style.getAttribute('details');
+                    list.push( `🎨 ${details}` ); // 🎨 for Stylesheet (CSS)
+                } );
+                sip.value = list.join( "\n" ) ;
+            } else {
+                const scripts = thelma( 'script[details]' );
+                const table = [
+                    [ "Details", "URL" ] // Column Names (schema)
+                ];
+                scripts.forEach( script => {
+                    const details = script.getAttribute('details');
+                    table.push( [details, script.src] );
+                } );
+                console.group( "Script Details" );
+                console.table( table );
+                console.groupEnd();
+            }
+        }
+
+        // Diagnostic dump of state variables
+        function diagnosticDump() {
+            const volatile = {
+                shimmy , 
+                mostRecentIcon ,
+                isDraggingIcon ,
+                isDraggingView , 
+                viewStartX , viewStartY , 
+                translateX , translateY ,
+                altPressed
+            };
+            const gadgets = {
+                viewport ,
+                canvas ,
+                sip   : gid( 'sip' ) ,
+                sss   : gid( 'sss-container' ) ,
+                main  : selma( 'main') ,
+                menus : thelma( '.dots' )
+            };
+            const stateKeys = {
+                iconKey , menuKey, settingsKey, scriptKey
+            };
+            const menuScale = getMenuScale();
+            const debugState = {
+                defaultDropURL,
+                menuScale,
+                compassLocked,
+                standardIconSize,
+                scriptLogs,
+                tileGridDetails,
+                gadgets, stateKeys,
+                hintLimit, currentHintSize, 
+                volatile
+            };
+            console.group( "Diagnostic Dump" );
+            console.log( "State", debugState );
+            console.groupEnd();
+        }
+
+    </script> <script details="Jeb ~ Universal Accessor">
+
+        const Jeb = {};
+
+        Jeb.menus = function() { return thelma( '.dots' ); };
+
+        Jeb.dots = function() { return thelma( '.dot' ); };
+
+        Jeb.icons = function() {  return thelma( '.icon' ); };
+
+        Jeb.manifest = {
+            examine : {
+                scriptDetails : examineScriptDetails ,
+                scriptLogs    : examineScriptLogs ,
+                hotKeys       : examineHotKeys
+            } ,
+            legends : _L_ , 
+            tigg    : TiGG   ,
+            thor
+        };
+
+        console.log( "🤠", "Jeb is ready (see manual)" );
+
+    </script>
+
+</body>
+</html>
+

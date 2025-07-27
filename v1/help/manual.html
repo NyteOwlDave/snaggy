@@ -1,0 +1,413 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style type="text/css">
+td, th { border: 1px solid #c3c3c3; padding: 0 3px 0 3px; }
+table { border-collapse: collapse; }
+img { max-width: 100%; }
+</style>
+<meta name="generator" content="ReText 7.2.3">
+<title>manual</title>
+<style type="text/css">
+</style>
+</head>
+<body>
+<p><head>
+<meta charset="utf-8"></p>
+<!--
+<script src="http://dave-legacy/42/api/core/dynaload.js"></script>
+-->
+<script>
+document.title = "Icons Snagger Help";
+</script>
+<script src="./../../api/editables.js"></script>
+<style>
+@import url("http://dave-legacy/stereogram/docs/style/docs.css");
+body {
+    background : url("./blue-duct.jpg");
+    background-size : 100vw;
+}
+header {
+    height : 68px;
+    line-height : 30px;
+}
+h1 {
+    margin-top : 64px;
+}
+hr {
+    border : none;
+}
+u1, ol,
+h1, h2, h3, h4,
+table, pre, blockquote, article {
+    background : rgba(245, 255, 250, 0.888);
+}
+article {
+    padding : 15px;
+    border-radius : 0.42ch;
+}
+h1, h2, h3, h4 {
+    text-align : center;
+    border-radius : 0.42ch;
+    padding : 5px;
+}
+li {
+    padding : 5px;
+}
+</style>
+<p></head></p>
+<header>
+<nav>
+⋆ <a href="./" title="🗃️ Workspace">🗃️</a>
+⋆ <a href="http://dave-legacy/stereogram/app/snagger/help/manual.html" title="🏠 Home">🏠</a> 
+⋆ <a href="./dev-notes.html" title="🧑‍💻 Dev Notes">🧑‍💻</a> 
+⋆ <a href="http://dave-legacy/42/dots/dot.cloud9.html" title="⛅ Cloud 9">⛅</a>
+⋆ <a href="http://dave-legacy/42/dots/dot.amigas.html" title="📕 X3A™ Notebook">📕</a>
+⋆
+</nav>
+</header>
+
+<h1>Standard Hotkeys</h1>
+<blockquote>
+<p>The following hotkeys are defined:</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Modifier</th>
+<th>Key</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CTRL</td>
+<td>F1</td>
+<td>Show Help</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F2</td>
+<td>Toggle Gold Aura</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F3</td>
+<td>Toggle Origin Marker</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F4</td>
+<td>Close App</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F5</td>
+<td>Gather All Menus Into Viewport</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F6</td>
+<td>Diagnostic Dump</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F7</td>
+<td>Examine Hot Keys</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F8</td>
+<td>Examine Script Details</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F9</td>
+<td>Save App State</td>
+</tr>
+<tr>
+<td>CTRL</td>
+<td>F10</td>
+<td>Toggle Editor View</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Scroll Lock</td>
+<td>Toggle Compass Lock</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Page Up</td>
+<td>Merge all Menus into One</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Page Down</td>
+<td>Split all Dots into Menus</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Insert</td>
+<td>Insert Random Menu</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>M</td>
+<td>Tile Icons and Recenter Canvas</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>O</td>
+<td>Recenter Canvas at Origin</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>S</td>
+<td>Save Icon as PNG or Dot Menu as JSON</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>T</td>
+<td>Delete Icon or Dot Menu</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>X</td>
+<td>Align Menu X</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Y</td>
+<td>Align Menu Y</td>
+</tr>
+</tbody>
+</table>
+<h1>Editor Hotkeys</h1>
+<p>The following hotkeys are defined:</p>
+<table>
+<thead>
+<tr>
+<th>Modifier</th>
+<th>Key</th>
+<th>Purpose</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CTRL</td>
+<td>F10</td>
+<td>Toggle Editor View</td>
+<td></td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Enter</td>
+<td>Run Script</td>
+<td></td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Insert</td>
+<td>Create Popup Window</td>
+<td></td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Delete</td>
+<td>Delete Popup Window</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>D</td>
+<td>Download Editor Contents</td>
+<td></td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>F</td>
+<td>Fetch Editor Contents</td>
+<td></td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>K</td>
+<td>Show Cache Keys</td>
+<td></td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>I</td>
+<td>Examine Script Details</td>
+<td></td>
+</tr>
+<tr>
+<td>ALT</td>
+<td>Q</td>
+<td>Show Module Content</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3>Notes</h3>
+<ol>
+<li>This seems to be broken.</li>
+<li>Hilite module name in editor first.</li>
+</ol>
+<hr>
+<h1>Navigation</h1>
+<article>
+<p>
+Icon Snagger uses a vast <b>virtual space</b> that allows panning in two dimensions.
+</p><p>
+With such a large space to move around in, it's easy to get
+lost.
+</p><p>
+There are a couple of gadgets that are useful for navigating.
+</p><p>
+The first is the red <b>origin marker</b>. If you see this flashing 🔴 red dot, it means you're close to the centerpoint of the virtual space. We'll talk more about this in a later
+section.
+</p><p>
+The other helpful gadget is the 🧭 <b>compass</b>. This is a pointer that indicates the relative direction to the
+origin marker. This also has it's own section.
+</p>
+</article>
+
+<h3><i class="si-arrows"></i> Panning</h3>
+<article>
+<p>
+To move around in virtual space, just right-click on any empty area of the screen and drag. During panning, the compass tracks the location of the origin marker, so it's easier to find.
+</p>
+</article>
+
+<h3>🔴 Origin Marker</h3>
+<article>
+<p>
+The 🔴 <b>origin marker</b> moves as you pan around. It's possible 
+to move so far away from this marker that it's no longer visible.
+</p><p>
+You can also toggle the 🔴 <b>origin marker</b> on and off, so if 
+you're having trouble finding it there are a few helpful things you 
+can do.
+</p><p>
+The first thing to try is to use to hotkey combination to 
+toggle visibility. This is <i class="si-keyboard"></i> <kbd>CTRL+F3</kbd>.
+</p><p>
+Another thing to try is to <b>double click</b> on 
+the 🧭 <b>compass</b>.
+</p><p>
+Double-clicking on the 🔴 <b>origin marker</b> or the
+🧭 <b>compass</b> performs two functions. It snaps back 
+to the origin and it aligns all icons in rows and columns.
+</p><p>
+The <i class="si-keyboard"></i> <kbd>ALT+O</kbd> hotkey combination
+has the same effect as the double-clicks described above.
+</p><p>
+The 🧭 <b>compass</b> can also be hidden. To toggle 
+compass visibility,
+use the <i class="si-keyboard"></i> <kbd>ALT+SCRLCK</kbd> hotkey combo.
+That's the <kbd>ALT</kbd> key and 
+the <kbd>Scroll Lock</kbd> key.
+</p>
+</article>
+
+<h3>🧭 Compass</h3>
+<article>
+<p>
+As mentioned above, the 🧭 <b>compass</b> tracks 
+the 🔴 <b>origin marker</b> position.
+</p><p>
+You can toggle its visibility with 
+the <i class="si-keyboard"></i> <kbd>ALT+SCRLCK</kbd> hotkey combo.
+</p><p>
+You can also <b>double-click</b> on it to snap back to the
+origin and align icons in rows and columns.
+</p>
+</article>
+
+<hr>
+<h1>Working with Icons</h1>
+<article>
+<p>
+Icon Snagger's primary role is capturing images
+from the internet. These images are automatically
+scaled to the ideal size for icons. Specifically,
+images are scaled to 256 x 256 pixels.
+</p><p>
+Image capture is done by drag-drop. The source can
+be any app that offers the capability to drag images
+into another app. Examples include browser tabs and
+operating system explorer apps.
+</p><p>
+Once an Icon has been captured, it can be dragged around
+in the virtual space. It can also be downloaded to the
+local file system or deleted.
+</p><p>
+Icons held in application memory are preserved between
+sessions until manually deleted. They can be downloaded
+multiple times if desired.
+</p><p>
+To <b>download</b> an Icon, over over it with the mouse pointer
+and use the <i class="si-keyboard"></i> <kbd>ALT+S</kbd> hotkey 
+combination. In this instance, the <b>S</b> stands for "save".
+</p><p>
+To <b>delete</b> an Icon, over over it with the mouse pointer
+and use the <i class="si-keyboard"></i> <kbd>ALT+T</kbd> hotkey 
+combination. In this instance, the <b>T</b> stands for "trash".
+</p><p>
+Icons are not guaranteed to be visible at any given time. If
+you pan away from the area where icons exist, the viewport
+will appear empty. As discussed earlier, options are provided
+for snapping back to the origin and for arranging icons in rows and
+columns within the viewport.
+</p>
+</article>
+
+<hr>
+<h1>Working with Dot Menus</h1>
+<article>
+<p>
+(pending)
+</p>
+</article>
+
+<hr>
+<h1>Using the Editor</h1>
+<article>
+<p>
+(pending)
+</p>
+</article>
+
+<hr>
+<h1>Using Popup Windows</h1>
+<article>
+<p>
+(pending)
+</p>
+</article>
+
+<hr>
+<h1>Preserving Data</h1>
+<article>
+<p>
+(pending)
+</p>
+</article>
+
+<hr>
+<blockquote>
+<p>Last Update : 2025-JUN-26</p>
+</blockquote>
+<script>
+addEventListener( 'load', () => { 
+    editables( 'td'  );
+    editables( 'pre' );
+    editables( 'h1'  );
+} );
+</script>
+
+</body>
+</html>

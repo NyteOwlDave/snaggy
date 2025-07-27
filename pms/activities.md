@@ -20,9 +20,13 @@
 
 # Links
 
-- https://github.com
-- https://aloralyn.org:4242
-- 
+[a]: <https://github.com/nyteowldave/snaggy> "GitHub Snaggy Repo"
+[b]: <http://aloralyn.org:4242> "Home @ AloraLyn"
+[c]: <http://aloralyn.org:4242/Dave> "Dave@AloraLyn"
+
+- [https://github.com/nyteowldave/snaggy][a]
+- [http://aloralyn.org:4242][b]
+- [http://aloralyn.org:4242/Dave][c]
 
 
 # Active Repo

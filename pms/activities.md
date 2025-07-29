@@ -1,5 +1,7 @@
 
-# Activiy Log
+# Activity Log
+
+> Snaggy Rep
 
 | When        | Who     | What         | Why    |
 |-------------|---------|--------------|--------|
@@ -42,3 +44,7 @@
 - stereogram
 - universal-q
 - vortex
+
+> Last Update : [2025-JUL-26](https://calendar.google.com/calendar) : Tower
+
+
